@@ -1,2 +1,0 @@
-export const CREATE_TICKET = "CREATE_TICKET";
-export const CREATE_USER = "CREATE_USER";

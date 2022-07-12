@@ -18,7 +18,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
-app.use("/api/tickets", ticketsRoute)
+app.use("/api/tickets", ticketsRoute);
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Connected to database')
