@@ -3,7 +3,7 @@ import {
     Drawer, Typography, Box, AppBar,
     Toolbar, Divider, List, ListItem, ListItemButton,
     ListItemIcon, ListItemText, Button, IconButton,
-    Menu, MenuItem, Badge, Grid
+    Menu, MenuItem, Badge, Grid, Tooltip
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { CssBaseline } from '@mui/material';
@@ -17,6 +17,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
+import { Link } from "react-router-dom"
 
 const drawerWidth = 240;
 
@@ -44,7 +45,6 @@ function SideBar() {
         setAnchorEl(null);
     };
 
-
     const classes = useStyles();
 
     return (
@@ -57,15 +57,17 @@ function SideBar() {
                     position="fixed">
                     <Toolbar>
                         <Box display='flex' flexGrow={1}>
-                            <img src='BlueBugLogo4.svg' alt="BlueBugLogo" height='50'
+                            <img src='BlueBugLogo6.svg' alt="BlueBugLogo" height='50'
                                 width='205' />
                         </Box>
 
+                        <Tooltip title='Notifications'>
                         <IconButton size="large">
                             <Badge badgeContent={2} color='primary'>
                             <NotificationsIcon />
                             </Badge>
                         </IconButton>
+                        </Tooltip>
 
                         <IconButton size="large" color="inherit"
                             aria-controls={open ? 'basic-menu' : undefined}
@@ -83,7 +85,7 @@ function SideBar() {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleClose} component={Link} to="/current">
                                 <ListItemIcon>
                                     <PersonIcon />
                                 </ListItemIcon>
@@ -129,7 +131,7 @@ function SideBar() {
                     <Divider />
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton>
+                            <ListItemButton component={Link} to="/">
                                 <ListItemIcon>
                                     <HomeIcon />
                                 </ListItemIcon>
@@ -143,7 +145,7 @@ function SideBar() {
                     </List>
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton>
+                            <ListItemButton component={Link} to="/new">
                                 <ListItemIcon>
                                     <AddCircleOutlineIcon />
                                 </ListItemIcon>
@@ -157,7 +159,7 @@ function SideBar() {
                     </List>
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton>
+                            <ListItemButton component={Link} to="/view">
                                 <ListItemIcon>
                                     <ArticleIcon />
                                 </ListItemIcon>

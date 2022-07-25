@@ -4,7 +4,6 @@ import {
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
     Card, CardContent, CardActions
 } from '@mui/material'
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { makeStyles } from '@mui/styles'
 import SelectUser from '../Helpers/CreateTickets/selectUser'
 import Severity from '../Helpers/CreateTickets/severity'

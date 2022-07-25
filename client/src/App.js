@@ -5,7 +5,10 @@ import { CssBaseline } from '@mui/material';
 import SideBar from './Components/Helpers/sideBar'
 import Dashboard from './Components/Pages/dashboard';
 import CreateTicket from './Components/Pages/createTicket'
-import ViewTickets from './Components/Pages/viewTickets'
+import ViewTickets from './Components/Pages/Admin/viewTickets'
+import MyTickets from './Components/Pages/myTickets'
+import ProfilePage from './Components/Pages/profilePage';
+import CompletedTickets from './Components/Pages/completedTickets'
 
 const theme = createTheme({
   palette: {
@@ -43,12 +46,12 @@ function App(){
           <Routes>
             <Route exact path='/' element={<Dashboard/>}/>
             <Route exact path='/new' element={<CreateTicket/>} />
-            <Route exact path='/current' element={<h1>Profile</h1>} />
-            <Route exact path='/completed' element={<h1>Complete</h1>} />
+            <Route exact path='/current' element={<ProfilePage/>} />
+            <Route exact path='/completed' element={<CompletedTickets />} />
             <Route exact path='/login' element={<h1>Login</h1>} />
             <Route exact path='/register' element={<h1>Register</h1>} />
             <Route exact path='/view' element={<ViewTickets />} />
-            <Route exact path='/viewall' element={<h1>View All Tickets</h1>} />
+            <Route exact path='/mytickets' element={<MyTickets />} />
           </Routes>
         </div>
       </BrowserRouter>
