@@ -91,7 +91,7 @@ function SideBar() {
                                 </ListItemIcon>
                                 Profile
                                 </MenuItem>
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleClose} component={Link} to="/settings">
                                 <ListItemIcon>
                                     <SettingsIcon />
                                 </ListItemIcon>

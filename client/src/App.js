@@ -9,36 +9,39 @@ import ViewTickets from './Components/Pages/Admin/viewTickets'
 import MyTickets from './Components/Pages/myTickets'
 import ProfilePage from './Components/Pages/profilePage';
 import CompletedTickets from './Components/Pages/completedTickets'
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#1C75BC'
-    }
-  }, 
-  typography: {
-    fontFamily: [
-      'Poppins',
-      'sans-serif',
-      'Open Sans', 
-      'sans-serif',
-      'Roboto',
-      'Helvetica',
-      'Arial',
-      'sans-serif'
-    ].join(','),
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 500,
-    fontWeightBold: 700 
-  },
-  });
+import Settings from './Components/Pages/settings'
 
 
 function App(){
+
+  const theme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#1C75BC'
+      }
+    }, 
+    typography: {
+      fontFamily: [
+        'Poppins',
+        'sans-serif',
+        'Open Sans', 
+        'sans-serif',
+        'Roboto',
+        'Helvetica',
+        'Arial',
+        'sans-serif'
+      ].join(','),
+      fontWeightLight: 300,
+      fontWeightRegular: 400,
+      fontWeightMedium: 500,
+      fontWeightBold: 700 
+    },});
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider
+     theme={theme}
+     >
       <CssBaseline/>
       <BrowserRouter>
         <div className='App'>
@@ -52,6 +55,7 @@ function App(){
             <Route exact path='/register' element={<h1>Register</h1>} />
             <Route exact path='/view' element={<ViewTickets />} />
             <Route exact path='/mytickets' element={<MyTickets />} />
+            <Route exact path='/settings' element={<Settings />} />
           </Routes>
         </div>
       </BrowserRouter>

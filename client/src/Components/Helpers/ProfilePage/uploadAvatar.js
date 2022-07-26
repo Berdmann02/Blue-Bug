@@ -47,19 +47,8 @@ export default function CircularIntegration() {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ position: 'relative', mt: 2 }}>
 
-                <label htmlFor="icon-button-file">
-                    <Input accept="image/*" id="icon-button-file" type="file" style={{ display: 'none' }} />
-                    {/* {success ?
-                        <Box sx={{ mr: 1}}>
-                            <Button variant="contained" sx={buttonSx} disabled={loading} aria-label="upload picture" component="span" size='small' endIcon={<PhotoCameraIcon />}>
-                                <CheckIcon />
-                            </Button>
-                        </Box>
-                        :
-                        <Button variant="contained" sx={buttonSx} disabled={loading} aria-label="upload picture" component="span" size='small' endIcon={<PhotoCameraIcon />}>
-                            Upload
-                        </Button>
-                    } */}
+                {/* <label htmlFor="icon-button-file">
+                    <Input accept="image/*" id="icon-button-file" type="file" style={{ display: 'none' }} /> */}
 
                     <IconButton aria-label="upload picture" component="span" style={{ color: '#FFFFFF'}}>
                         <Avatar sx={{ bgcolor: '#FFFFFF', width: 130, height: 130 }}
@@ -67,21 +56,10 @@ export default function CircularIntegration() {
                          alt={<AccountCircleIcon />} />
                     </IconButton>
 
-                </label>
-                {/* {loading && (
-                    <CircularProgress
-                        size={24}
-                        sx={{
-                            color: green[500],
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: '-12px',
-                            marginLeft: '-12px',
-                        }}
-                    />
-                )} */}
+                {/* </label> */}
             </Box>
         </Box>
     );
 }
+
+// need to add upload picture feature
