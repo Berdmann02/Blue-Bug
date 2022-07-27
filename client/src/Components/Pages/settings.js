@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ViewTickets() {
+function ViewTickets({ parentCallback, value }) {
 
     const classes = useStyles();
 
@@ -54,7 +54,7 @@ function ViewTickets() {
 
                         <Box sx={{ml: .8}} />
 
-                        <ThemeSwitch sx={{mt: .4}} />
+                        <ThemeSwitch sx={{mt: .4}} parentCallback={parentCallback} value={value}/>
 
 
                     </Grid>

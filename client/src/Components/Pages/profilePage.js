@@ -8,6 +8,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Picture from '../Helpers/ProfilePage/uploadAvatar'
+import LightPicture from '../Helpers/ProfilePage/uploadAvatarLight'
 import EditIcon from '@mui/icons-material/Edit';
 import UploadIcon from '@mui/icons-material/Upload';
 
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ProfilePage() {
+function ProfilePage({ value }) {
 
     const classes = useStyles();
 
@@ -43,6 +44,7 @@ function ProfilePage() {
 
                     <Box sx={{ mt: 5 }} />
 
+                {value ? 
                     <Card variant="outlined" sx={{width: 500, ml: 2, height: 185, borderRadius: 5}}>
                     <Grid container justifyContent="flex-start">
 
@@ -71,6 +73,36 @@ function ProfilePage() {
                         </Stack>
                     </Grid>
                     </Card>
+                    :
+                    <Card variant="outlined" sx={{width: 500, ml: 2, height: 185, borderRadius: 5, bgcolor: '#1C75BC'}}>
+                    <Grid container justifyContent="flex-start">
+
+                        {/* <Box sx={{ ml: 17 }} /> */}
+
+                        <Box sx={{ ml: 5 }} />
+
+                        {/* <Tooltip title={upload} placement="bottom" arrow>
+                            <Box> */}
+                            <LightPicture />
+                            {/* </Box>
+                        </Tooltip> */}
+
+                        <Stack
+                            direction="column"
+                        >
+
+                                    <Typography sx={{ mt: 5, ml: 5, fontSize: 22, fontWeight: 500, color: '#FFFFFF' }}>
+                                        Benjamin Erdmann
+                                    </Typography>
+
+                            <Typography sx={{ ml: 5.2 }} variant='subtitle1'>
+                                Admin
+                            </Typography>
+
+                        </Stack>
+                    </Grid>
+                    </Card>
+}
                     
 
                 <Box sx={{mt: 10, ml: 10}}>

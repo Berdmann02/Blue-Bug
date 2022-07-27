@@ -6,6 +6,7 @@ import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { useMemo } from "react";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -30,7 +31,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
   },
   '& .MuiSwitch-thumb': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#1C75BC' : '#001e3c',
+    backgroundColor: theme.palette.mode === 'dark' ? '#1C75BC' : '#1C75BC',
     width: 32,
     height: 32,
     '&:before': {
@@ -55,35 +56,22 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 
-export default function ThemeSwitch() {
-    const [checked, setChecked] = React.useState(true);
+export default function ThemeSwitch({ parentCallback, value}) {
+    
 
-    const handleSwitch = (event) => {
-        setChecked(event.target.checked);
-        console.log(checked);
-    }
-
-    // const value = React.createContext(checked);
-
-
-    // const theme = createTheme({
-    //     palette: {
-    //       mode: 'dark'
-    //     }
-    //     });
-
-        // const light = {
-        //     palette: {
-        //       mode: "light",
-        //     },
-        //   };
+        const handleSwitch = (event) => {
+            parentCallback(event.target.checked)
+        }
 
     return (
       <FormGroup>
-        <FormControlLabel
-          control={<MaterialUISwitch sx={{ m: 1, mt: 1.4 }} defaultChecked onChange={handleSwitch} />}
-        //   label="MUI switch"
-        />
+        {value ? <FormControlLabel
+          control={<MaterialUISwitch sx={{ m: 1, mt: 1.4 }} 
+            defaultChecked
+          onChange={handleSwitch} />}/> : 
+          <FormControlLabel
+          control={<MaterialUISwitch sx={{ m: 1, mt: 1.4 }} 
+          onChange={handleSwitch} />}/>}
         </FormGroup>
     )
 }
