@@ -44,7 +44,7 @@ function ProfilePage({ value }) {
 
                     <Box sx={{ mt: 5 }} />
 
-                {value ? 
+                {value === 'dark' ? 
                     <Card variant="outlined" sx={{width: 500, ml: 2, height: 185, borderRadius: 5}}>
                     <Grid container justifyContent="flex-start">
 
@@ -76,8 +76,6 @@ function ProfilePage({ value }) {
                     :
                     <Card variant="outlined" sx={{width: 500, ml: 2, height: 185, borderRadius: 5, bgcolor: '#1C75BC'}}>
                     <Grid container justifyContent="flex-start">
-
-                        {/* <Box sx={{ ml: 17 }} /> */}
 
                         <Box sx={{ ml: 5 }} />
 

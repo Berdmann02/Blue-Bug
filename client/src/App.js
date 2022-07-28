@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { useState, useMemo } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material';
+import { useDarkMode } from './Components/darkMode';
 import SideBar from './Components/Helpers/sideBar'
 import Dashboard from './Components/Pages/dashboard';
 import CreateTicket from './Components/Pages/createTicket'
@@ -15,7 +15,6 @@ import Settings from './Components/Pages/settings'
 
 function App(){
 
-  const [checked, setChecked] = React.useState(true)
 
           const dark = createTheme({
         palette: {
@@ -65,10 +64,14 @@ function App(){
             fontWeightBold: 700 
           },});
 
-          const value = checked;
+          const [theme, themeToggler] = useDarkMode();
+
+          const themeMode = theme === 'dark' ? dark : light;
+
+          const value = localStorage.getItem('theme')
 
   return (
-    <ThemeProvider theme={checked ? dark : light}>
+    <ThemeProvider theme={themeMode}>
       <CssBaseline/>
       <BrowserRouter>
         <div className='App'>
@@ -82,7 +85,7 @@ function App(){
             <Route exact path='/register' element={<h1>Register</h1>} />
             <Route exact path='/view' element={<ViewTickets />} />
             <Route exact path='/mytickets' element={<MyTickets />} />
-            <Route exact path='/settings' element={<Settings state={checked} parentCallback={setChecked} value={value} />} />
+            <Route exact path='/settings' element={<Settings state={theme} parentCallback={themeToggler} value={value}/>} />
           </Routes>
         </div>
       </BrowserRouter>

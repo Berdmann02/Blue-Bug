@@ -55,23 +55,21 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
+// const handleSwitch = (event) => {
+//   parentCallback(event.target.checked);
+// }
 
-export default function ThemeSwitch({ parentCallback, value}) {
+
+export default function ThemeSwitch({ parentCallback, value }) {
     
-
-        const handleSwitch = (event) => {
-            parentCallback(event.target.checked)
-        }
 
     return (
       <FormGroup>
-        {value ? <FormControlLabel
+        <FormControlLabel
           control={<MaterialUISwitch sx={{ m: 1, mt: 1.4 }} 
-            defaultChecked
-          onChange={handleSwitch} />}/> : 
-          <FormControlLabel
-          control={<MaterialUISwitch sx={{ m: 1, mt: 1.4 }} 
-          onChange={handleSwitch} />}/>}
+            checked={value === 'dark' ? true : false}
+          onChange={parentCallback}
+           />}/> 
         </FormGroup>
     )
 }

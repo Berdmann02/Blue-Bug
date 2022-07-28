@@ -16,12 +16,10 @@ export default function CircularIntegration() {
 
 
 
-                    <IconButton aria-label="upload picture" component="span" 
-                    // style={{ color: '#FFFFFF'}}
-                    >
+                    <IconButton aria-label="upload picture" component="span" >
                         <Avatar sx={{ 
-                            // bgcolor: '#FFFFFF',
-                             width: 130, height: 130 }}
+                            bgcolor: '#FFFFFF',
+                             width: 130, height: 130, color: '#1C75BC' }}
                         // src='https://www.w3schools.com/howto/img_avatar.png'
                          alt={<AccountCircleIcon />} />
                     </IconButton>
