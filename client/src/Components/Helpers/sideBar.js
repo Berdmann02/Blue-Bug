@@ -62,7 +62,7 @@ function SideBar() {
                         </Box>
 
                         <Tooltip title='Notifications'>
-                        <IconButton size="large">
+                        <IconButton size="large" component={Link} to="/notifications">
                             <Badge badgeContent={2} color='primary'>
                             <NotificationsIcon />
                             </Badge>
@@ -97,7 +97,7 @@ function SideBar() {
                                 </ListItemIcon>
                                 Settings
                                 </MenuItem>
-                            <MenuItem onClick={handleClose}>
+                            <MenuItem onClick={handleClose} component={Link} to="/login">
                                 <ListItemIcon>
                                     <LogoutIcon />
                                 </ListItemIcon>
