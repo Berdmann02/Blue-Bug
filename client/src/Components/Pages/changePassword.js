@@ -48,13 +48,13 @@ function Change() {
 
                         <Box sx={{ mt: 4 }} />
 
-                        <Box sx={{ mr: 5 }}>
+                        <Box sx={{ mr: 1.9 }}>
                         <Typography>
-                           Please enter your new password again.
+                           Please confirm your new password below.
                         </Typography>
                         </Box>
 
-                        <TextField required id="outlined-password-input" type='password' label="New Password" size='small' color='primary' style={{ width: 350 }} sx={{ mt: 1 }} />
+                        <TextField required id="outlined-password-input" type='password' label="Confirm Password" size='small' color='primary' style={{ width: 350 }} sx={{ mt: 1 }} />
 
 
                         <Button variant="outlined" size='large'

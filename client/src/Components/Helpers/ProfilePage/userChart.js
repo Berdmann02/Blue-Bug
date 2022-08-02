@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
     Paper, Table, TableBody, TableCell,
     TableContainer, TableHead, TablePagination,
@@ -82,10 +82,10 @@ export default function StickyHeadTable() {
         );
     };
 
-    BootstrapDialogTitle.propTypes = {
-        children: PropTypes.node,
-        onClose: PropTypes.func.isRequired,
-    };
+    // BootstrapDialogTitle.propTypes = {
+    //     children: PropTypes.node,
+    //     onClose: PropTypes.func.isRequired,
+    // };
 
     const info = <div>
         <Tooltip title='Account Info'>

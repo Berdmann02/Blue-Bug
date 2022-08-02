@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { GlobalProvider } from './Context/GlobalContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material';
@@ -17,6 +18,7 @@ import ForgotPassword from './Components/Pages/forgotPassword'
 import Notifications from './Components/Pages/notifications'
 import ChangePassword from './Components/Pages/changePassword'
 import NewUsers from './Components/Pages/newUsers';
+import EditTickets from './Components/Pages/editTickets'
 
 
 function App(){
@@ -91,6 +93,7 @@ function App(){
           //   </div>
 
   return (
+    <GlobalProvider>
     <ThemeProvider theme={themeMode}>
       <CssBaseline/>
       <BrowserRouter>
@@ -105,7 +108,7 @@ function App(){
             <Route exact path='/view' element={<ViewTickets />} />
             <Route exact path='/mytickets' element={<MyTickets />} />
             <Route exact path='/notifications' element={<Notifications />} />
-            <Route exact path='/edit:ticketid' element={<h1>Hello</h1>} />
+            <Route exact path='/edit:ticketid' element={<EditTickets />} />
             <Route exact path='/change' element={<ChangePassword />} />
             <Route exact path='/newuser' element={<NewUsers />} />
             <Route exact path='/settings' element={<Settings state={theme} parentCallback={themeToggler} value={value}/>} />
@@ -117,6 +120,7 @@ function App(){
           </div>
       </BrowserRouter>
     </ThemeProvider>
+    </GlobalProvider>
   )
 };
 

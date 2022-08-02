@@ -3,8 +3,9 @@ import { makeStyles } from '@mui/styles'
 import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
-    Card, CardContent, CardActions, Link
+    Card, CardContent, CardActions, Link, CircularProgress
 } from '@mui/material'
+import { useGlobalContext } from '../../Context/GlobalContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,9 +16,21 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({ value }) {
 
+    const { fetchingUser } = useGlobalContext();
+
     const classes = useStyles();
 
-    return (
+    return fetchingUser ? (
+        <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
+            {/* <h1>Loading...</h1> */}
+            <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+        </Grid>
+    ) : (
         // <Box sx={{ ml: 28 }} className={classes.root}>
         <Box>
 
@@ -32,16 +45,16 @@ function Login({ value }) {
                 // display='flex' flexGrow={1}
                 >
                     {value === 'dark' ?
-                    <img src='BlueBugLogoLogin.svg' alt="BlueBugLogo"
-                        style={{
-                            height: 450, width: 450,
-                            position: 'relative'
-                        }} />
+                        <img src='BlueBugLogoLogin.svg' alt="BlueBugLogo"
+                            style={{
+                                height: 450, width: 450,
+                                position: 'relative'
+                            }} />
                         : <img src='BlueBugLogoLightMode.svg' alt="BlueBugLogo"
-                        style={{
-                            height: 450, width: 450,
-                            position: 'relative'
-                        }} />
+                            style={{
+                                height: 450, width: 450,
+                                position: 'relative'
+                            }} />
                     }
 
                     {/* <Box>
@@ -80,16 +93,16 @@ function Login({ value }) {
                             <Button variant="contained" size='large' style={{ backgroundColor: '#1C75BC' }}>Login</Button>
                         </Box>
 
-                
+
                     </Grid>
 
                     <Box>
-                            <Typography sx={{ ml: 68.5, mt: 1, fontSize: 14.25 }}>
-                                <Link href="/forgot" underline="hover">
-                                    {'Forgot password?'}
-                                </Link>
-                            </Typography>
-                        </Box>
+                        <Typography sx={{ ml: 68.5, mt: 1, fontSize: 14.25 }}>
+                            <Link href="/forgot" underline="hover">
+                                {'Forgot password?'}
+                            </Link>
+                        </Typography>
+                    </Box>
 
                 </Grid>
 

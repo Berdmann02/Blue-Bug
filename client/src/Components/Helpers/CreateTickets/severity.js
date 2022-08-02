@@ -5,7 +5,7 @@ function ColorRadioButtons() {
 
   return (
     <FormControl sx={{ mt: 3}}>
-      <FormLabel id="demo-row-radio-buttons-group-label">Severity:</FormLabel>
+      <FormLabel required id="demo-row-radio-buttons-group-label">Severity:</FormLabel>
       <RadioGroup
         row
         aria-labelledby="demo-row-radio-buttons-group-label"

@@ -52,7 +52,7 @@ export default function MultipleSelectChip() {
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }} size='small'>
-        <InputLabel id="demo-multiple-chip-label">Assign Users</InputLabel>
+        <InputLabel required id="demo-multiple-chip-label">Assign Users</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"

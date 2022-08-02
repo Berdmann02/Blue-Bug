@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Paper, Table, TableBody, TableCell, 
     TableContainer, TableHead, TablePagination,
     TableRow, Box, IconButton, Collapse, Grid,
@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
 import Delete from '../deleteDialog'
+import { Link } from "react-router-dom"
 
 const StyledTableCell = styled(TableCell)({
     [`&.${tableCellClasses.head}`]: {
@@ -81,10 +82,10 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-};
+// BootstrapDialogTitle.propTypes = {
+//   children: PropTypes.node,
+//   onClose: PropTypes.func.isRequired,
+// };
 
 const info = <div>
   <Tooltip title='Ticket Info'>
@@ -200,7 +201,7 @@ const info = <div>
                     <Delete />
     
                 </Grid>
- <Button autoFocus onClick={handleClose}>
+ <Button component={Link} to="/edit:ticketid" autoFocus onClick={handleClose}>
      Edit
    </Button>
    <Button autoFocus onClick={handleClose}>
