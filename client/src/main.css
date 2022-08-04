@@ -1,0 +1,6 @@
+#transfer {
+    transition: all 0.3s ease;
+}
+#transfer:hover {
+    opacity: 0.5;
+  }

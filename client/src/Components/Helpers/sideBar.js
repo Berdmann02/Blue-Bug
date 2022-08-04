@@ -18,6 +18,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from "react-router-dom"
+import { useGlobalContext } from '/Users/benjaminerdmann/Documents/Coding/bug-tracker/bluebug copy 2/client/src/Context/GlobalContext';
 
 const drawerWidth = 240;
 
@@ -36,6 +37,8 @@ const useStyles = makeStyles({
 
 function SideBar() {
 
+    const { logout } = useGlobalContext();
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -43,6 +46,11 @@ function SideBar() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleLogout = ({logout}) => {
+        setAnchorEl(null);
+        // {logout}
     };
 
     const classes = useStyles();
@@ -97,7 +105,7 @@ function SideBar() {
                                 </ListItemIcon>
                                 Settings
                                 </MenuItem>
-                            <MenuItem onClick={handleClose} component={Link} to="/login">
+                            <MenuItem onClick={handleLogout} component={Link} to="/login">
                                 <ListItemIcon>
                                     <LogoutIcon />
                                 </ListItemIcon>
