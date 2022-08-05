@@ -5,6 +5,8 @@ import {
     Card, CardContent, CardActions
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 
@@ -19,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
 function Change() {
 
     const classes = useStyles();
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 11, pl: 25 }}

@@ -5,6 +5,8 @@ import CompleteChart from '../../Helpers/ViewTickets/completeChart'
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import SourceIcon from '@mui/icons-material/Source';
 import { Link } from "react-router-dom"
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
 function ViewTickets() {
 
     const classes = useStyles();
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>

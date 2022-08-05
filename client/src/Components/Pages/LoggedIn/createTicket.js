@@ -8,6 +8,8 @@ import { makeStyles } from '@mui/styles'
 import SelectUser from '../../Helpers/CreateTickets/selectUser'
 import Severity from '../../Helpers/CreateTickets/severity'
 import UploadButton from '../../Helpers/CreateTickets/uploadButton'
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 
@@ -22,6 +24,12 @@ function CreateTicket() {
     const [upload, setUpload] = React.useState('');
 
     const classes = useStyles();
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>

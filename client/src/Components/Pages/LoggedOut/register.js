@@ -8,6 +8,7 @@ import { makeStyles } from '@mui/styles'
 // import { Link } from "react-router-dom"
 import axios from 'axios'
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import { Navigate } from "react-router-dom"
 
 
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Register({ register }) {
 
-    const { getCurrentUser } = useGlobalContext();
+    const { getCurrentUser, user } = useGlobalContext();
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -59,6 +60,10 @@ function Register({ register }) {
 
 
     const classes = useStyles();
+
+    if(user){
+        return <Navigate to ='/' />
+    }
 
     return (
         <Box sx={{ pt: 8 }}

@@ -48,10 +48,16 @@ function SideBar() {
         setAnchorEl(null);
     };
 
-    const handleLogout = ({logout}) => {
+
+
+    function Close (){
         setAnchorEl(null);
-        // {logout}
-    };
+    }
+
+    function handleLogout(){
+        Close();
+        logout();
+    }
 
     const classes = useStyles();
 
@@ -213,5 +219,6 @@ function SideBar() {
         </Grid>
     )
 }
+
 
 export default SideBar

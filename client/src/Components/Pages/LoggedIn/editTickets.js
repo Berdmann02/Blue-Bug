@@ -8,6 +8,8 @@ import { makeStyles } from '@mui/styles'
 import EditSeverity from '../../Helpers/EditTickets/editSeverity'
 import UploadButton from '../../Helpers/CreateTickets/uploadButton'
 import EditSelect from '../../Helpers/EditTickets/editSelect'
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 
@@ -22,6 +24,12 @@ function EditTickets() {
     const [upload, setUpload] = React.useState('');
 
     const classes = useStyles();
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>

@@ -7,6 +7,7 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useNavigate, Navigate } from "react-router-dom"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,11 +18,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({ value, register }) {
 
-    const { getCurrentUser } = useGlobalContext();
+  
+
+    const { getCurrentUser, user } = useGlobalContext();
+    const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [loading, setLoading] = React.useState(false);
     const [errors, setErrors] = React.useState({});
+
+    React.useEffect(() => {
+        if(user && navigate) {
+            navigate('/')
+        }
+    }, [user, navigate])
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -50,6 +60,10 @@ function Login({ value, register }) {
     const { fetchingUser } = useGlobalContext();
 
     const classes = useStyles();
+
+    if(user){
+        return <Navigate to ='/' />
+    }
 
     return fetchingUser ? (
         <Grid
@@ -93,57 +107,71 @@ function Login({ value, register }) {
                 <Grid style={{ position: 'absolute' }} container
                     justifyContent="flex-start" direction="column" alignItems="center">
 
-                    <Box sx={{ mt: 35, ml: 40 }}>
+                    <form onSubmit={onSubmit}>
                         <Box>
-                            <TextField value={email} onChange={e => setEmail(e.target.value)}
-                                id="outlined-password-input" label="Email" size='small'
-                                margin="normal" color='primary' multiline style={{ width: 350 }} />
-                        </Box>
+                            <Box sx={{ mt: 33, ml: 35 }}>
+                                <Box>
+                                    <TextField value={email} onChange={e => setEmail(e.target.value)}
+                                        id="outlined-emaillogin-input" label="Email" size='small'
+                                        margin="normal" color='primary' multiline style={{ width: 350 }} />
+                                </Box>
+
+                                {errors.email && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.email}</Typography>
+                        )}
 
 
-                        <Box>
-                            <TextField value={password} onChange={e => setPassword(e.target.value)}
-                                id="outlined-password-input" label="Password" type="password" size='small'
-                                margin="normal" color='primary' style={{ width: 350 }} />
-                        </Box>
-                    </Box>
+                                <Box>
+                                    <TextField value={password} onChange={e => setPassword(e.target.value)}
+                                        id="outlined-passwordlogin-input" label="Password" type="password" size='small'
+                                        margin="normal" color='primary' style={{ width: 350 }} />
+                                </Box>
+                            </Box>
 
-                    {Object.keys(errors).length > 0 && (
-                        <Typography>
-                            {errors.error}
-                        </Typography>
-                    )}
+                            {errors.password && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.password}</Typography>
+                        )}
 
-
-                    <Grid
-                        container
-                        direction="row"
-                    >
-                        <Box sx={{ ml: 87.5, mt: 1 }}>
-                            <Button variant="outlined" size='large' color='primary'
-                                href='/register'>
-                                Create Account
-                            </Button>
-                        </Box>
-
-                        <Box sx={{ ml: 1.5, mt: 1 }}>
-                            <Button variant="contained" size='large' style={{ backgroundColor: '#1C75BC' }}
-                            >Login
-                            </Button>
-                        </Box>
+                            {Object.keys(errors).length > 0 && (
+                                <Typography sx={{ fontSize: 15, fontWeight: 500, ml: 35, mt: 1, mb: 1 }} color='#f44336'
+                                >
+                                    {errors.error}
+                                </Typography>
+                            )}
 
 
-                    </Grid>
+                            <Grid
+                                container
+                                direction="row"
+                            >
+                                <Box sx={{ ml: 43.9, mt: 1 }}>
+                                    <Button variant="outlined" size='large' color='primary'
+                                        href='/register'>
+                                        Create Account
+                                    </Button>
+                                </Box>
 
-                    <Box>
-                            <Typography sx={{ ml: 68, mt: 1, fontSize: 14.25 }}>
-                                <Link href="/forgot" underline="none" id='transfer'>
-                                    {'Forgot password?'}
-                                </Link>
-                            </Typography>
-                        </Box>
+                                <Box sx={{ ml: 1.5, mt: 1 }}>
+                                    <Button type='submit' disabled={loading} variant="contained" 
+                                    size='large' style={{ backgroundColor: '#1C75BC' }}
+                                    >Login
+                                    </Button>
+                                </Box>
 
-                        {/* <Grid container row sx={{ mt: 1 }}>
+                </Grid>
+                </Box>
+                    </form>
+
+
+                <Box>
+                    <Typography sx={{ ml: 63.5, mt: 1, fontSize: 14.25 }}>
+                        <Link href="/forgot" underline="none" id='transfer'>
+                            {'Forgot password?'}
+                        </Link>
+                    </Typography>
+                </Box>
+
+                {/* <Grid container row sx={{ mt: 1 }}>
                         <Box>
                             <Typography sx={{
                                 fontSize: 12, fontWeight: 500, ml: 93.2
@@ -167,11 +195,12 @@ function Login({ value, register }) {
 
                     </Grid> */}
 
-                </Grid>
-
-
             </Grid>
-        </Box>
+
+
+
+        </Grid>
+        </Box >
     )
 };
 

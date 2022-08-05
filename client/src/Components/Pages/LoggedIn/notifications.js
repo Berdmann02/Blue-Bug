@@ -10,6 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import UploadIcon from '@mui/icons-material/Upload';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +28,12 @@ function ProfilePage() {
     </IconButton>
 
     const upload = <UploadIcon size='small' />
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 10, pl: 30 }} className={classes.root}>

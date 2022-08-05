@@ -2,7 +2,10 @@ import * as React from 'react'
 import { Box, Card, CardActions, CardContent, Button, Typography, Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Chart from '../../Helpers/Dashboard/chart';
-import Table from '../../Helpers/Dashboard/dashTable'
+import Table from '../../Helpers/Dashboard/dashTable';
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +17,12 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard() {
 
   const classes = useStyles();
+
+  const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>

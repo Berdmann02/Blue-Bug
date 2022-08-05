@@ -6,6 +6,8 @@ import {
     NativeSelect
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 
@@ -26,6 +28,12 @@ function NewUsers() {
     const handleChange = (event) => {
         setRole(event.target.value);
     };
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 11, pl: 25 }}

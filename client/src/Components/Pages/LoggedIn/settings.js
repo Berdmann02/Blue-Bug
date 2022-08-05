@@ -10,6 +10,8 @@ import SourceIcon from '@mui/icons-material/Source';
 // import { Link } from "react-router-dom"
 import ThemeSwitch from '../../Helpers/Settings/themeSwitch'
 import PasswordIcon from '@mui/icons-material/Password';
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
 function Settings({ parentCallback, value }) {
 
     const classes = useStyles();
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>

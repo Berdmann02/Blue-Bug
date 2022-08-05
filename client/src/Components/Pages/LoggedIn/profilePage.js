@@ -13,6 +13,8 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import UserChart from '../../Helpers/ProfilePage/userChart'
 import { Link } from "react-router-dom"
+import { Navigate } from "react-router-dom"
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +31,12 @@ function ProfilePage({ value }) {
     </IconButton>
 
     const upload = <UploadIcon size='small' />
+
+    const { user } = useGlobalContext();
+
+  if(!user){
+    return <Navigate to="/login" />;
+  }
 
     return (
         <Box sx={{ pt: 10, pl: 30 }} className={classes.root}>
