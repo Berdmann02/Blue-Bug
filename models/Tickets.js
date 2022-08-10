@@ -6,10 +6,36 @@ const TicketSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        content: {
+        name: {
             type: String,
             required: true,
         },
+        steps: {
+            type: String,
+            required: true
+        },
+        expected: {
+            type: String,
+        },
+        actual: {
+            type: String,
+        },
+        files: {
+            type: Buffer, 
+            contentType: String,
+        },
+        severity: {
+            type: String,
+            required: true,
+        },
+        assign: {
+            type: String,
+            required: true,
+        },
+        // content: {
+        //     type: String,
+        //     required: true,
+        // },
         complete: {
             type: Boolean,
             default: false,

@@ -6,7 +6,7 @@ import { Paper, Table, TableBody, TableCell,
     Card, Divider, CardContent, Typography, 
     tableCellClasses, Dialog, DialogTitle, 
     DialogContent, Button, DialogActions,
-    Checkbox, Tooltip
+    Checkbox, Tooltip, Modal
 } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,6 +15,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
 import Delete from '../deleteDialog'
 import { Link } from "react-router-dom"
+import { useGlobalContext } from '../../../../Context/GlobalContext'
+import moment from 'moment';
+import Info from './info'
 
 const StyledTableCell = styled(TableCell)({
     [`&.${tableCellClasses.head}`]: {
@@ -26,17 +29,28 @@ function createData(info, name, user, severity, time, steps, expected, actual, v
   return { info, name, user, severity, time, steps, expected, actual, visuals };
 }
 
-export default function StickyHeadTable() {
+export default function ViewChart() {
+  
   const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState("");
+  console.log(id);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    const handleClickOpen = () => {
+    const handleClose = () => setOpen(false);
+
+    const handleClickOpen = (_id) => {
+    // setOpen(true);
+    setId(id);
     setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+
+    };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -47,260 +61,366 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
+//   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+//   '& .MuiDialogContent-root': {
+//     padding: theme.spacing(2),
+//   },
+//   '& .MuiDialogActions-root': {
+//     padding: theme.spacing(1),
+//   },
+// }));
 
-const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
+const { incompleteTickets } = useGlobalContext();
 
-  // const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+// const BootstrapDialogTitle = (props) => {
+//   const { children, onClose, ...other } = props;
 
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
+//   // const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-// BootstrapDialogTitle.propTypes = {
-//   children: PropTypes.node,
-//   onClose: PropTypes.func.isRequired,
+//   return (
+//     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+//       {children}
+//       {onClose ? (
+//         <IconButton
+//           aria-label="close"
+//           onClick={onClose}
+//           sx={{
+//             position: 'absolute',
+//             right: 8,
+//             top: 8,
+//             color: (theme) => theme.palette.grey[500],
+//           }}
+//         >
+//           <CloseIcon />
+//         </IconButton>
+//       ) : null}
+//     </DialogTitle>
+//   );
 // };
 
-const info = <div>
-  <Tooltip title='Ticket Info'>
-<IconButton size='small' variant="outlined" onClick={handleClickOpen}>
-  <InfoIcon />
-</IconButton>
-</Tooltip>
-<BootstrapDialog
- onClose={handleClose}
- aria-labelledby="customized-dialog-title"
- open={open}
->
- <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-   Ticket Information
- </BootstrapDialogTitle>
- <DialogContent dividers>
-              <Box component="div" sx={{ display: 'inline' }}>
-                  <Typography style={{ fontWeight: '700', fontStyle: 'italic' }} noWrap>
-                      Steps To Reproduce :
-                  </Typography>
-                  <Box sx={{mt: 1}} />
-                  <Grid container direction="row" justifyContent="space-around" alignItems="center">
-                  <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-                      <CardContent>
-                          <Typography variant="body1" >
-                              Go to login page and try to sign in
-                              </Typography>
-                      </CardContent>
-                  </Card>
-                  </Grid>
-                  </Box>
+// // BootstrapDialogTitle.propTypes = {
+// //   children: PropTypes.node,
+// //   onClose: PropTypes.func.isRequired,
+// // };
+
+// const info = <div>
+//   <Tooltip title='Ticket Info'>
+// <IconButton size='small' variant="outlined" onClick={handleClickOpen}>
+//   <InfoIcon />
+// </IconButton>
+// </Tooltip>
+// <BootstrapDialog
+//  onClose={handleClose}
+//  aria-labelledby="customized-dialog-title"
+//  open={open}
+// >
+//  <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+//    Ticket Information
+//  </BootstrapDialogTitle>
+//  {/* {incompleteTickets.filter(tickets => tickets._id  */}
+//  <DialogContent dividers>
+//               <Box component="div" sx={{ display: 'inline' }}>
+//                   <Typography style={{ fontWeight: '700', fontStyle: 'italic' }} noWrap>
+//                       Steps To Reproduce :
+//                   </Typography>
+//                   <Box sx={{mt: 1}} />
+//                   <Grid container direction="row" justifyContent="space-around" alignItems="center">
+//                   <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
+//                       <CardContent>
+//                           <Typography variant="body1" >
+//                               {/* {tickets.steps} */}
+//                               </Typography>
+//                       </CardContent>
+//                   </Card>
+//                   </Grid>
+//                   </Box>
 
 
-              <Box sx={{ mt: 3}} />
+//               <Box sx={{ mt: 3}} />
 
              
 
-              <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-                  Expected Result :
-              </Typography>
-              <Box sx={{mt: 1}} />
-              <Grid container direction="row" justifyContent="space-around" alignItems="center">
-              <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-                  <CardContent>
-                      <Typography>
-                          Should sign in
-                      </Typography>
-                  </CardContent>
-              </Card>
-              </Grid>
+//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
+//                   Expected Result :
+//               </Typography>
+//               <Box sx={{mt: 1}} />
+//               <Grid container direction="row" justifyContent="space-around" alignItems="center">
+//               <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
+//                   <CardContent>
+//                       <Typography>
+//                           {/* {tickets.expected} */}
+//                       </Typography>
+//                   </CardContent>
+//               </Card>
+//               </Grid>
 
-              <Box sx={{ mt: 3}} />
-
-
-
-              <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-                  Actual Result :
-              </Typography>
-              <Box sx={{mt: 1}} />
-              <Grid container direction="row" justifyContent="space-around" alignItems="center">
-              <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-                  <CardContent>
-                      <Typography>
-                          Reloads the page
-                      </Typography>
-                  </CardContent>
-              </Card>
-              </Grid>
-
-              <Box sx={{ mt: 3}} />
+//               <Box sx={{ mt: 3}} />
 
 
 
+//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
+//                   Actual Result :
+//               </Typography>
+//               <Box sx={{mt: 1}} />
+//               <Grid container direction="row" justifyContent="space-around" alignItems="center">
+//               <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
+//                   <CardContent>
+//                       <Typography>
+//                           {/* {tickets.actual} */}
+//                       </Typography>
+//                   </CardContent>
+//               </Card>
+//               </Grid>
 
-              <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-                  Pictures/Videos :
-              </Typography>
-              <Box sx={{mt: 1}} />
-              <Grid container direction="row" justifyContent="space-around" alignItems="center">
-              <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-                  <CardContent>
-                      <Typography>
-                          Shows images here...
-                      </Typography>
-                  </CardContent>
-              </Card>
-              </Grid>
+//               <Box sx={{ mt: 3}} />
 
-              <Box sx={{ mt: 2}} />
 
-              <Grid container
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="center">
-              <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-                Complete Ticket :
-              </Typography>
 
-              <Checkbox {...{inputProps: { 'aria-label': 'Checkbox demo' }}} />
 
-              </Grid>
+//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
+//                   Pictures/Videos :
+//               </Typography>
+//               <Box sx={{mt: 1}} />
+//               <Grid container direction="row" justifyContent="space-around" alignItems="center">
+//               <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
+//                   <CardContent>
+//                   {/* {tickets.files} */}
+//                       <Typography>
+//                         No files loaded...
+//                       </Typography>
+//                   </CardContent>
+//               </Card>
+//               </Grid>
 
-              <Box sx={{ mt: 2}} />
+//               <Box sx={{ mt: 2}} />
 
- </DialogContent>
- <DialogActions>
- <Grid
-                    container
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                >
-                    <Delete />
+//               <Grid container
+//                     direction="row"
+//                     justifyContent="flex-start"
+//                     alignItems="center">
+//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
+//                 Complete Ticket :
+//               </Typography>
+
+//               <Checkbox {...{inputProps: { 'aria-label': 'Checkbox demo' }}} />
+
+//               </Grid>
+
+//               <Box sx={{ mt: 2}} />
+
+//  </DialogContent>
+//  <DialogActions>
+//  <Grid
+//                     container
+//                     direction="row"
+//                     justifyContent="flex-start"
+//                     alignItems="center"
+//                 >
+//                     <Delete />
     
-                </Grid>
- <Button component={Link} to="/edit:ticketid" autoFocus onClick={handleClose}>
-     Edit
-   </Button>
-   <Button autoFocus onClick={handleClose}>
-     Save
-   </Button>
- </DialogActions>
-</BootstrapDialog>
-</div>
+//                 </Grid>
+//  <Button component={Link} to="/edit:ticketid" autoFocus onClick={handleClose}>
+//      Edit
+//    </Button>
+//    <Button autoFocus onClick={handleClose}>
+//      Save
+//    </Button>
+//  </DialogActions>
+// </BootstrapDialog>
+// </div>
 
   const rows = [
-    createData( info, 'Create View Ticket Page', 'Ben, Zacky' , 'Critical', '42m'),
-    createData( info, 'Create Login Page', 'Fede, Jonathan, Zacky', 'Medium', '1hr'),
-    createData( info, 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-    createData( info, 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-    createData( info, 'Create Login Page', 'Fede', 'Medium', '1hr'),
-    createData( info, 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-    createData( info, 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-    createData( info, 'Create Login Page', 'Fede', 'Medium', '1hr'),
-    createData( info, 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-    createData( info, 'Link Pages', 'Ben', 'High', '42m'),
-    createData( info, 'Work on Settings', 'Fede', 'Medium', '23hr'),
-    createData( info, 'Create Profile Page', 'Zacky', 'Low', '1m'),
-    createData( info, 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-    createData( info, 'Create Login Page', 'Fede', 'Medium', '1hr'),
-    createData( info, 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+    createData( 'Create View Ticket Page', 'Ben, Zacky' , 'Critical', '42m'),
+    createData( 'Create Login Page', 'Fede, Jonathan, Zacky', 'Medium', '1hr'),
+    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+    createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
+    createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
+    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+    createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
+    createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
+    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+    createData( 'Link Pages', 'Ben', 'High', '42m'),
+    createData( 'Work on Settings', 'Fede', 'Medium', '23hr'),
+    createData( 'Create Profile Page', 'Zacky', 'Low', '1m'),
+    createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
+    createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
+    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
 ];
 
-  const columns = [
-    { id: 'info', label: ''
-    , minWidth: 100},
-  { id: 'name', label: 'Ticket Name', 
-  minWidth: 170
-},
-  { id: 'user', label: 'User(s)', 
-  minWidth: 100, align: 'right'
-},
-  {
-    id: 'severity',
-    label: 'Severity',
-    minWidth: 170,
-    align: 'right'
-  },
-  {
-    id: 'time',
-    label: 'Time Since Posting',
-    minWidth: 170,
-    align: 'right'
-  },
-]
+//   const columns = [
+//     { id: 'info', label: ''
+//     , minWidth: 100},
+//   { id: 'name', label: 'Ticket Name', 
+//   minWidth: 170
+// },
+//   { id: 'user', label: 'User(s)', 
+//   minWidth: 100, align: 'right'
+// },
+//   {
+//     id: 'severity',
+//     label: 'Severity',
+//     minWidth: 170,
+//     align: 'right'
+//   },
+//   {
+//     id: 'time',
+//     label: 'Time Since Posting',
+//     minWidth: 170,
+//     align: 'right'
+//   },
+// ]
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table" >
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <StyledTableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </StyledTableCell>
-              ))}
+    <TableContainer sx={{ maxHeight: 440 }}>
+      <Table stickyHeader aria-label="sticky table" >
+        <TableHead>
+          <TableRow>
+          <StyledTableCell width={100} />
+          <StyledTableCell width={170} align="center" style={{ fontWeight: '500', fontStyle: 'italic' }}>Ticket Name</StyledTableCell>
+            <StyledTableCell width={100} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>User(s)</StyledTableCell>
+            <StyledTableCell width={170} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>Severity</StyledTableCell>
+            <StyledTableCell width={170} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>Time Since Posting</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        <Info open={open} setOpen={setOpen} ticketId={id}/>
+        {incompleteTickets.sort().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tickets) => (
+            <TableRow
+              hover
+              key={tickets._id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell>
+              <Tooltip title='Ticket Info'>
+                <IconButton size='small' variant="outlined" onClick={() => {
+                  setId(tickets._id);
+                  setOpen(true);
+                }}>
+                  <InfoIcon />
+                </IconButton>
+              </Tooltip>
+                
+              </TableCell>
+              <TableCell component="th" scope="row" align='center'>
+                {tickets.name}
+              </TableCell>
+              <TableCell align='right'>{tickets.assign}</TableCell>
+              <TableCell align="right">{tickets.severity}</TableCell>
+              <TableCell align="right">{moment.utc(tickets.createdAt).local().startOf('seconds').fromNow()}</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-         {rows
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map((row) => {
-            return (
-              <TableRow hover role="checkbox" tabIndex={-1}>
-                {columns.map((column) => {
-                  const value = row[column.id];
-                  return (
-                    <TableCell key={column.id} align={column.align}>
-                      {column.format && typeof value === 'number'
-                        ? column.format(value)
-                        : value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+            // <div>
+            //    <Button onClick={handleClickOpen}>Open modal</Button>
+            //   <Modal
+            //     open={open}
+            //     onClose={handleClose}
+            //     aria-labelledby="modal-modal-title"
+            //     aria-describedby="modal-modal-description"
+            //   >
+            //     <Box>
+            //       <Typography id="modal-modal-title" variant="h6" component="h2">
+            //         {tickets.name}
+            //       </Typography>
+            //       <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            //         Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            //       </Typography>
+            //     </Box>
+            //   </Modal>
+            // </div>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <TablePagination
+      rowsPerPageOptions={[5, 10, 25]}
+      component="div"
+      count={rows.length}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+    />
+  </Paper>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    //   <TableContainer sx={{ maxHeight: 440 }}>
+    //     <Table stickyHeader aria-label="sticky table" >
+    //       <TableHead>
+    //         <TableRow>
+    //           {columns.map((column) => (
+    //             <StyledTableCell
+    //               key={column.id}
+    //               align={column.align}
+    //               style={{ minWidth: column.minWidth }}
+    //             >
+    //               {column.label}
+    //             </StyledTableCell>
+    //           ))}
+    //         </TableRow>
+    //       </TableHead>
+    //       <TableBody>
+    //      {rows
+    //       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    //       .map((row) => {
+    //         return (
+    //           <TableRow hover role="checkbox" tabIndex={-1}>
+    //             {columns.map((column) => {
+    //               const value = row[column.id];
+    //               return (
+    //                 <TableCell key={column.id} align={column.align}>
+    //                   {column.format && typeof value === 'number'
+    //                     ? column.format(value)
+    //                     : value}
+    //                 </TableCell>
+    //               );
+    //             })}
+    //           </TableRow>
+    //         );
+    //       })}
+    //       </TableBody>
+    //     </Table>
+    //   </TableContainer>
+    //   <TablePagination
+    //     rowsPerPageOptions={[5, 10, 25]}
+    //     component="div"
+    //     count={rows.length}
+    //     rowsPerPage={rowsPerPage}
+    //     page={page}
+    //     onPageChange={handleChangePage}
+    //     onRowsPerPageChange={handleChangeRowsPerPage}
+    //   />
+    // </Paper>
   );
 }
 

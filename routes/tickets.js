@@ -25,7 +25,14 @@ router.post("/new", requiresAuth, async (req, res) => {
         // create a new ticket
         const newTicket = new Ticket({
             user: req.user._id,
-            content: req.body.content,
+            name: req.body.name,
+            steps: req.body.steps,
+            expected: req.body.expected,
+            actual: req.body.actual,
+            files: req.body.files,
+            severity: req.body.severity,
+            assign: req.body.assign,
+            // content: req.body.content,
             complete: false,
         })
 

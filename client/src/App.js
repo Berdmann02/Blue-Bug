@@ -5,8 +5,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material';
 import { useDarkMode } from './Components/darkMode';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from "react-router-dom"
 import SideBar from './Components/Helpers/sideBar'
 import Dashboard from './Components/Pages/LoggedIn/dashboard';
 import CreateTicket from './Components/Pages/LoggedIn/createTicket'
@@ -83,78 +81,8 @@ function App() {
 
   const value = localStorage.getItem('theme')
 
-
   const { user } = useGlobalContext();
-  console.log(user);
 
-  // const navigate = useNavigate();
-
-  // function ProtectedRoute ({ children }) {
-  //   const { user } = useGlobalContext();
-
-  //   const navigate = useNavigate();
-
-  //   if (user) {
-  //     return <navigate to="/login" />;
-  //   }
-
-  //   return children;
-  // };
-
-  // if(show){
-  //   {user}
-  // };
-
-  // if(user==='null'){
-  //   const auth = false
-  // } else {
-  //   const auth = true
-  // }
-
-  // if(user=null){
-  //   return false
-  // } else {
-  //   return true
-  // }
-
-  //   const USERLOGGEDIN = user
-
-  //   function CheckUser(){
-  //   if(USERLOGGEDIN=null){
-  //     return false
-  //   } else {
-  //     return true
-  //   }
-  // }
-
-  // const { pathname } = useLocation();
-
-  // const privateRoutes =
-  //   <div >
-  //     <SideBar />
-  //     <Routes>
-  //       <Route exact path='/' element={<Dashboard />} />
-  //       <Route exact path='/new' element={<CreateTicket />} />
-  //       <Route exact path='/current' element={<ProfilePage value={value} />} />
-  //       <Route exact path='/completed' element={<CompletedTickets />} />
-  //       <Route exact path='/view' element={<ViewTickets />} />
-  //       <Route exact path='/mytickets' element={<MyTickets />} />
-  //       <Route exact path='/notifications' element={<Notifications />} />
-  //       <Route exact path='/edit:ticketid' element={<EditTickets />} />
-  //       <Route exact path='/change' element={<ChangePassword />} />
-  //       <Route exact path='/newuser' element={<NewUsers />} />
-  //       <Route exact path='/settings' element={<Settings state={theme} parentCallback={themeToggler} value={value} />} />
-  //     </Routes>
-  //   </div>
-
-  // const publicRoutes =
-  //   <div >
-  //     <Routes>
-  //       <Route exact path='/login' element={<Login value={value} />} />
-  //       <Route exact path='/register' element={<Register />} />
-  //       <Route exact path='/forgot' element={<ForgotPassword />} />
-  //     </Routes>
-  //   </div>
 
   return (
     <GlobalProvider>
@@ -162,8 +90,9 @@ function App() {
         <CssBaseline />
         <BrowserRouter>
           <div className='App'>
-              <SideBar/>
+             <SideBar />
             <Routes>
+              <Route exact path='*' element={<h1>Look away!</h1>} />
               <Route exact path='/' element={<Dashboard user={user}/>} />
               <Route exact path='/new' element={<CreateTicket user={user}/>} />
               <Route exact path='/current' element={<ProfilePage value={value} user={user}/>} />
@@ -171,7 +100,7 @@ function App() {
               <Route exact path='/view' element={<ViewTickets user={user}/>} />
               <Route exact path='/mytickets' element={<MyTickets user={user}/>} />
               <Route exact path='/notifications' element={<Notifications user={user}/>} />
-              <Route exact path='/edit:ticketid' element={<EditTickets user={user}/>} />
+              <Route exact path='/edit/:ticketid' element={<EditTickets user={user}/>} />
               <Route exact path='/change' element={<ChangePassword user={user}/>} />
               <Route exact path='/newuser' element={<NewUsers user={user}/>} />
               <Route exact path='/settings' element={<Settings user={user} state={theme} parentCallback={themeToggler} value={value} />} />
@@ -180,72 +109,7 @@ function App() {
               <Route exact path='/register' element={<Register user={user}/>} />
               <Route exact path='/forgot' element={<ForgotPassword user={user}/>} />
             </Routes>
-            {/* {user ? privateRoutes : publicRoutes} */}
           </div>
-
-
-
-
-          {/* {user === 'null' ? publicRoutes : privateRoutes} */}
-          {/* {publicRoutes}
-        {privateRoutes} */}
-
-
-
-
-          {/* {CheckUser ?
-            <div className='App'>
-              <SideBar />
-              <Routes>
-                <Route exact path='/' element={<Dashboard />} />
-                <Route exact path='/new' element={<CreateTicket />} />
-                <Route exact path='/current' element={<ProfilePage value={value} />} />
-                <Route exact path='/completed' element={<CompletedTickets />} />
-                <Route exact path='/view' element={<ViewTickets />} />
-                <Route exact path='/mytickets' element={<MyTickets />} />
-                <Route exact path='/notifications' element={<Notifications />} />
-                <Route exact path='/edit:ticketid' element={<EditTickets />} />
-                <Route exact path='/change' element={<ChangePassword />} />
-                <Route exact path='/newuser' element={<NewUsers />} />
-                <Route exact path='/settings' element={<Settings state={theme} parentCallback={themeToggler} value={value} />} />
-              </Routes>
-            </div>
-            :
-            <div className='App'>
-              <Routes>
-                <Route exact path='/login' element={<Login value={value} />} />
-                <Route exact path='/register' element={<Register />} />
-                <Route exact path='/forgot' element={<ForgotPassword />} />
-              </Routes>
-            </div>
-          } */}
-
-          {/* {CheckUser ?
-            <div className='App'>
-              <Routes>
-                <Route exact path='/login' element={<Login value={value} />} />
-                <Route exact path='/register' element={<Register />} />
-                <Route exact path='/forgot' element={<ForgotPassword />} />
-              </Routes>
-            </div>
-            :
-            <div className='App'>
-              <SideBar />
-              <Routes>
-                <Route exact path='/' element={<Dashboard />} />
-                <Route exact path='/new' element={<CreateTicket />} />
-                <Route exact path='/current' element={<ProfilePage value={value} />} />
-                <Route exact path='/completed' element={<CompletedTickets />} />
-                <Route exact path='/view' element={<ViewTickets />} />
-                <Route exact path='/mytickets' element={<MyTickets />} />
-                <Route exact path='/notifications' element={<Notifications />} />
-                <Route exact path='/edit:ticketid' element={<EditTickets />} />
-                <Route exact path='/change' element={<ChangePassword />} />
-                <Route exact path='/newuser' element={<NewUsers />} />
-                <Route exact path='/settings' element={<Settings state={theme} parentCallback={themeToggler} value={value} />} />
-              </Routes>
-            </div>
-          } */}
         </BrowserRouter>
       </ThemeProvider>
     </GlobalProvider>

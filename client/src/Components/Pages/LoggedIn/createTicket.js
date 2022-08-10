@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
-    Card, CardContent, CardActions
+    Card, CardContent, CardActions, CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import SelectUser from '../../Helpers/CreateTickets/selectUser'
@@ -25,13 +25,21 @@ function CreateTicket() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
+if(!user && fetchingUser === false){
+    return <Navigate to="/login" />
   }
-
-    return (
+  return fetchingUser ? (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+    </Grid>
+) : (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
 
             {/* <Box component="span" sx={{ display: 'block' }}> */}
@@ -46,9 +54,10 @@ function CreateTicket() {
 
                 <Divider sx={{ pt: 1, borderBottomWidth: 2, borderColor: '#1C75BC' }} style={{ width: '35%' }} />
 
-                <Box sx={{ mt: 1 }}>
+                <Box sx={{ mt: 1 }}/>
 
-                </Box>
+                <form>
+                <Grid container justifyContent="center" direction="column" alignItems="center">
 
                 <TextField required id="outlined-password-input" label="Ticket Name" size='small' margin="normal" color='primary' multiline style={{ width: 350 }} />
 
@@ -63,13 +72,16 @@ function CreateTicket() {
                 {/* <Card sx={{ width: 350, mt: 2, height: 168 }} variant="outlined"> */}
                     {/* <CardContent> */}
                         {/* <Typography sx={{ mt: 2, ml: 3 }}> */}
+
                             <Typography sx={{ mt: 2 }}>
                             Upload Pictures/Videos of the Bug
                         </Typography>
 
                     {/* </CardContent>
                     <CardActions> */}
+
                         <UploadButton />
+                        
                     {/* </CardActions>
                 </Card> */}
 
@@ -82,12 +94,12 @@ function CreateTicket() {
                 </Box>
 
 
-                <Button variant="contained" size='large' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 5 }}>Create Ticket</Button>
+                <Button variant="contained" size='large' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 3 }}>Create Ticket</Button>
 
-                <Box sx={{ mt: 15 }}>
+                </Grid>
+                </form>
 
-                </Box>
-
+                <Box sx={{ mt: 15 }}/>
 
             </Grid>
 

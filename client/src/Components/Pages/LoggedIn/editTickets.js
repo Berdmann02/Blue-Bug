@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
-    Card, CardContent, CardActions
+    Card, CardContent, CardActions, CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import EditSeverity from '../../Helpers/EditTickets/editSeverity'
@@ -25,13 +25,22 @@ function EditTickets() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
-  }
+    if(!user && fetchingUser === false){
+        return <Navigate to="/login" />
+      }
 
-    return (
+  return fetchingUser ? (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+    </Grid>
+) : (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
 
             {/* <Box component="span" sx={{ display: 'block' }}> */}

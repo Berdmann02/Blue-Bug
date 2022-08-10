@@ -61,11 +61,14 @@ function SideBar() {
 
     const classes = useStyles();
 
+    const { user } = useGlobalContext();
+
+    if(user){
     return (
         <Grid container>
         <Box>
             <Box>
-                <CssBaseline />
+                {/* <CssBaseline /> */}
                 <AppBar
                     style={{ zIndex: 1251 }}
                     position="fixed">
@@ -126,10 +129,12 @@ function SideBar() {
                     </Toolbar>
                 </AppBar>
             </Box>
+
             <Box>
                 <Drawer
                     className={classes.drawer}
                     variant='permanent'
+                    // variant={user ? 'permanent' : 'temporary'}
                     anchor='left'
                     classes={{ paper: classes.drawerPaper }}
                     sx={{
@@ -185,39 +190,12 @@ function SideBar() {
                             </ListItemButton>
                         </ListItem>
                     </List>
-                    {/* <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <TaskIcon />
-                                </ListItemIcon>
-                                <ListItemText >
-                                    <Typography style={{ fontWeight: 400, fontStyle: 'italic' }}>
-                                        Completed Tickets
-                                    </Typography>
-                                </ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <DeleteIcon />
-                                </ListItemIcon>
-                                <ListItemText >
-                                    <Typography style={{ fontWeight: 400, fontStyle: 'italic' }}>
-                                        Deleted Tickets
-                                    </Typography>
-                                </ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </List> */}
                 </Drawer>
             </Box>
         </Box>
         </Grid>
     )
+}
 }
 
 

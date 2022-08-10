@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
-    Card, CardContent, CardActions
+    Card, CardContent, CardActions, CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Navigate } from "react-router-dom"
@@ -22,13 +22,25 @@ function Change() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
+// null - true return
+// null - false, redirect login
+// !null - false, re
+
+  if(!user && fetchingUser === false){
+    return <Navigate to="/login" />
   }
-
-    return (
+  return fetchingUser ? (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+    </Grid>
+) : (
         <Box sx={{ pt: 11, pl: 25 }}
             className={classes.root}>
 
@@ -52,7 +64,7 @@ function Change() {
 
                         {/* <Box sx={{ mt: 2 }} /> */}
 
-                        <TextField required id="outlined-password-input" type='password' label="New Password" size='small' color='primary' style={{ width: 350 }} sx={{ mt: 1 }} />
+                        <TextField required id="outlined-newpassword-input" type='password' label="New Password" size='small' color='primary' style={{ width: 350 }} sx={{ mt: 1 }} />
 
                         <Box sx={{ mt: 4 }} />
 
@@ -62,7 +74,7 @@ function Change() {
                         </Typography>
                         </Box>
 
-                        <TextField required id="outlined-password-input" type='password' label="Confirm Password" size='small' color='primary' style={{ width: 350 }} sx={{ mt: 1 }} />
+                        <TextField required id="outlined-confirmnewpassword-input" type='password' label="Confirm Password" size='small' color='primary' style={{ width: 350 }} sx={{ mt: 1 }} />
 
 
                         <Button variant="outlined" size='large'
@@ -75,6 +87,6 @@ function Change() {
         </Box>
 
     )
-};
+} 
 
 export default Change;

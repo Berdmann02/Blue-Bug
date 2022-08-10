@@ -1,7 +1,8 @@
 import * as React from 'react'
 import {
     Box, Typography, Grid, Divider, IconButton,
-    Tooltip, Paper, Button, TextField, Link
+    Tooltip, Paper, Button, TextField, Link,
+    CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import MyChart from '../../Helpers/ViewTickets/myChart'
@@ -24,13 +25,44 @@ function Settings({ parentCallback, value }) {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
-  }
+    const [firstName, setFirstName] = React.useState(user.firstName);
+    const [lastName, setLastName] = React.useState(user.lastName);
+    const [email, setEmail] = React.useState(user.email);
+    const [editing, setEditing] = React.useState(false);
+    const input = React.useRef(null);
 
-    return (
+    const onEdit = (e) => {
+        e.preventDefault();
+        setEditing(true);
+    }
+
+    const stopEditing = (e) => {
+        if(e) {
+            e.preventDefault();
+
+        }
+
+        setEditing(false);
+        setFirstName(user.firstName);
+        setLastName(user.lastName);
+        setEmail(user.email);
+    }
+
+    if (!user && fetchingUser === false) {
+        return <Navigate to="/login" />
+    }
+    return fetchingUser ? (
+        <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+        </Grid>
+    ) : (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
             <Grid container justifyContent="center" direction="column" alignItems="center">
                 <Paper sx={{ width: 975, height: 900 }}>
@@ -98,11 +130,17 @@ function Settings({ parentCallback, value }) {
 
                             {/* <Box sx={{ mt: 2 }} /> */}
 
+
                             <TextField
                                 id="outlined-helperText"
                                 label="First Name"
-                                defaultValue="Benjamin"
+                                defaultValue={firstName}
                                 sx={{ ml: 5 }}
+                                InputProps={{
+                                    readOnly: !editing,
+                                }}
+                                ref={input}
+                                onChange={e => setFirstName(e.target.value)}
                             />
 
                             <Box sx={{ mt: 3 }} />
@@ -110,8 +148,11 @@ function Settings({ parentCallback, value }) {
                             <TextField
                                 id="outlined-helperText"
                                 label="Last Name"
-                                defaultValue="Erdmann"
+                                defaultValue={lastName}
                                 sx={{ ml: 5 }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
 
                             <Box sx={{ mt: 3 }} />
@@ -119,20 +160,44 @@ function Settings({ parentCallback, value }) {
                             <TextField
                                 id="outlined-helperText"
                                 label="Email"
-                                defaultValue="berdmann02@gmail.com"
+                                defaultValue={email}
                                 sx={{ ml: 5, width: 350 }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                             />
 
-                            <Typography sx={{ ml: 31.5, mt: 2, fontSize: 14.25 }}>
+
+                            {/* <Typography sx={{ ml: 31.5, mt: 2, fontSize: 14.25 }}>
                                 <Link href="/change" underline="hover">
                                     {'Change Password?'}
                                 </Link>
+                            </Typography> */}
+
+
+                            <Typography sx={{ ml: 31.5, mt: 1, fontSize: 14.25 }}>
+                                <Link href="/change" underline="none" id='transfer'>
+                                    {'Change password?'}
+                                </Link>
                             </Typography>
 
-
-                            <Box sx={{ ml: 40.5 }}>
-                                <Button variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 2 }}>Save</Button>
+                            {!editing ? 
+                                <Box sx={{ ml: 41 }}>
+                                <Button onClick={onEdit} variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 1 }}>Edit</Button>
                             </Box>
+                            :
+                            <Grid container row>
+                            <Box sx={{ ml: 29 }}>
+                                <Button onClick={stopEditing} variant="outlined" size='medium' sx={{ mt: 1 }}>Cancel</Button>
+                            </Box>
+
+
+                            <Box sx={{ ml: 1 }}>
+                                <Button variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 1 }}>Save</Button>
+                            </Box>
+                            </Grid>
+                            }
+
 
                             {/* <Typography sx={{ mt: 2, ml: 5 }}>
                                 Change First Name :

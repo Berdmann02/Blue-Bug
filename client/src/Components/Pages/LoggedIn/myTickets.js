@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Typography, Grid, Divider, IconButton, Tooltip } from '@mui/material'
+import { Box, Typography, Grid, Divider, IconButton, Tooltip, CircularProgress } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import MyChart from '../../Helpers/ViewTickets/myChart'
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
@@ -19,13 +19,22 @@ function ViewTickets() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
-  }
+    if(!user && fetchingUser === false){
+        return <Navigate to="/login" />
+      }
 
-    return (
+  return fetchingUser ? (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+    </Grid>
+) : (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
 
             <Grid container justifyContent="center" direction="column" alignItems="center">

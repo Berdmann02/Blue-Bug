@@ -18,8 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({ value, register }) {
 
-  
-
     const { getCurrentUser, user } = useGlobalContext();
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
@@ -65,6 +63,9 @@ function Login({ value, register }) {
         return <Navigate to ='/' />
     }
 
+    // if(user && fetchingUser === false){
+    //     return <Navigate to="/" />
+    //   }
     return fetchingUser ? (
         <Grid
             container
@@ -72,7 +73,6 @@ function Login({ value, register }) {
             justifyContent="center"
             alignItems="center"
         >
-            {/* <h1>Loading...</h1> */}
             <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
         </Grid>
     ) : (

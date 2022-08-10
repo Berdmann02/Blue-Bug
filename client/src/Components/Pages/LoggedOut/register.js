@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
-    Card, CardContent, CardActions, Link
+    Card, CardContent, CardActions, Link, CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 // import { Link } from "react-router-dom"
@@ -58,6 +58,8 @@ function Register({ register }) {
         })
     };
 
+    const { fetchingUser } = useGlobalContext();
+
 
     const classes = useStyles();
 
@@ -65,7 +67,16 @@ function Register({ register }) {
         return <Navigate to ='/' />
     }
 
-    return (
+    return fetchingUser ? (
+    <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+        </Grid>
+    ) : (
         <Box sx={{ pt: 8 }}
             className={classes.root}>
 

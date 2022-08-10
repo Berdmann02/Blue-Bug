@@ -3,7 +3,7 @@ import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
     Card, CardContent, CardActions, Paper, IconButton, Avatar,
-    Stack, Tooltip, Alert, AlertTitle
+    Stack, Tooltip, Alert, AlertTitle, CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import EditIcon from '@mui/icons-material/Edit';
@@ -29,13 +29,22 @@ function ProfilePage() {
 
     const upload = <UploadIcon size='small' />
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
-  }
+    if(!user && fetchingUser === false){
+        return <Navigate to="/login" />
+      }
 
-    return (
+  return fetchingUser ? (
+    <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+    >
+        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+    </Grid>
+) : (
         <Box sx={{ pt: 10, pl: 30 }} className={classes.root}>
             <Grid container justifyContent="center" direction="column" alignItems="center">
                 <Paper sx={{ width: 975, height: 900 }}>

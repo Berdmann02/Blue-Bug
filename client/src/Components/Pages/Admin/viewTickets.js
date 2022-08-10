@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Typography, Grid, Divider, IconButton, Tooltip } from '@mui/material'
+import { Box, Typography, Grid, Divider, IconButton, Tooltip, CircularProgress } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import ViewChart from '../../Helpers/ViewTickets/Admin/viewChart'
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
@@ -19,26 +19,35 @@ function ViewTickets() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    const { user, fetchingUser } = useGlobalContext();
 
-  if(!user){
-    return <Navigate to="/login" />;
-  }
+    if(!user && fetchingUser === false){
+        return <Navigate to="/login" />
+      }
 
-    return (
+      return fetchingUser ? (
+        <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+        </Grid>
+    ) : (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
 
             <Grid container justifyContent="center" direction="column" alignItems="center">
 
                 <Box style={{ display: 'inline-flex' }}>
 
-                    <Box sx={{ml: 48}} />
+                    <Box sx={{ml: 43}} />
 
                 <Typography variant='h4' sx={{ fontSize: 30, fontWeight: 500}} align='center'>
                     View Tickets
                 </Typography>
 
-                <Box sx={{ml: 36}} />
+                <Box sx={{ml: 30}} />
 
                 <Tooltip title="My Tickets">
                 <IconButton size='small' component={Link} to="/mytickets">
@@ -46,7 +55,7 @@ function ViewTickets() {
                 </IconButton>
                 </Tooltip>
 
-                <Box sx={{mr: 3}} />
+                <Box sx={{mr: 4}} />
 
                 <Tooltip title="Completed Tickets">
                 <IconButton size='small' component={Link} to="/completed">
@@ -62,7 +71,7 @@ function ViewTickets() {
 
                 <Box sx={{ mt: 3 }} />
 
-                <Box sx={{ width: 1000, mr: 3 }}>
+                <Box sx={{ width: 950, mr: 2.5 }}>
                 <ViewChart />
                 </Box>
 

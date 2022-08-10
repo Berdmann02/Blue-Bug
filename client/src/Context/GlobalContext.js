@@ -64,7 +64,7 @@ export const GlobalProvider = (props) => {
                 if (ticketsRes.data) {
                     dispatch({ type: "SET_USER", payload: res.data });
                     dispatch({ type: "SET_COMPLETE_TICKETS", payload: ticketsRes.data.complete });
-                    dispatch({ type: "SET_INCOMPLETE_TICKETS,", payload: ticketsRes.data.incomplete });
+                    dispatch({ type: "SET_INCOMPLETE_TICKETS", payload: ticketsRes.data.incomplete });
                 }
             } else {
                 dispatch({ type: "RESET_USER" });
@@ -99,6 +99,8 @@ export const GlobalProvider = (props) => {
     )
 }
 
+
 export function useGlobalContext() {
     return useContext(GlobalContext);
 }
+
