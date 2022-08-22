@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { FormLabel, FormControl, FormControlLabel, Radio, RadioGroup, Box } from '@mui/material'
 
-function ColorRadioButtons() {
+function ColorRadioButtons({ severity, setSeverity }) {
+
 
   return (
     <FormControl sx={{ mt: 3}}>
       <FormLabel required id="demo-row-radio-buttons-group-label">Severity:</FormLabel>
       <RadioGroup
+      value={severity}
+      onChange={(e) => setSeverity(e.target.value)}
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"

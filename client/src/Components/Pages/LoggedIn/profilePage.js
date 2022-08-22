@@ -34,20 +34,20 @@ function ProfilePage({ value }) {
 
     const { user, fetchingUser } = useGlobalContext();
 
-    if(!user && fetchingUser === false){
+    if (!user && fetchingUser === false) {
         return <Navigate to="/login" />
-      }
+    }
 
-  return fetchingUser ? (
-    <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-    >
-        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
-    </Grid>
-) : (
+    return fetchingUser ? (
+        <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+        </Grid>
+    ) : (
         <Box sx={{ pt: 10, pl: 30 }} className={classes.root}>
             <Grid container justifyContent="center" direction="column" alignItems="center">
                 <Paper sx={{ width: 975, height: 900 }}>
@@ -81,12 +81,19 @@ function ProfilePage({ value }) {
                                     direction="column"
                                 >
 
-                                    <Typography sx={{ mt: 5, ml: 5, fontSize: 22, fontWeight: 500, color: '#1C75BC' }}>
-                                        Benjamin Erdmann
-                                    </Typography>
+                                    <Grid container row>
+                                        <Typography sx={{ mt: 5, ml: 5, fontSize: 22, fontWeight: 500, color: '#1C75BC' }}>
+                                            {user.firstName}
+                                        </Typography>
+
+                                        <Typography sx={{ mt: 5, ml: 1, fontSize: 22, fontWeight: 500, color: '#1C75BC' }}>
+                                            {user.lastName}
+                                        </Typography>
+                                    </Grid>
 
                                     <Typography sx={{ ml: 5.2 }} variant='subtitle1'>
-                                        Admin
+                                        {/* Admin */}
+                                        {user.role}
                                     </Typography>
 
                                 </Stack>
@@ -108,12 +115,18 @@ function ProfilePage({ value }) {
                                     direction="column"
                                 >
 
-                                    <Typography sx={{ mt: 5, ml: 5, fontSize: 22, fontWeight: 500, color: '#FFFFFF' }}>
-                                        Benjamin Erdmann
-                                    </Typography>
+                                    <Grid container row>
+                                        <Typography sx={{ mt: 5, ml: 5, fontSize: 22, fontWeight: 500, color: '#FFFFFF' }}>
+                                            {user.firstName}
+                                        </Typography>
+
+                                        <Typography sx={{ mt: 5, ml: 1, fontSize: 22, fontWeight: 500, color: '#FFFFFF' }}>
+                                            {user.lastName}
+                                        </Typography>
+                                    </Grid>
 
                                     <Typography sx={{ ml: 5.2 }} variant='subtitle1'>
-                                        Admin
+                                        {user.role}
                                     </Typography>
 
                                 </Stack>
@@ -127,7 +140,7 @@ function ProfilePage({ value }) {
 
                     <Box sx={{ mt: 2 }} />
 
-                <UserChart />
+                    <UserChart />
 
                 </Paper>
             </Grid>

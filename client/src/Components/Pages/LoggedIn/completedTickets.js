@@ -40,13 +40,13 @@ function ViewTickets() {
 
                 <Box style={{ display: 'inline-flex' }}>
 
-                    <Box sx={{ml: 34}} />
+                    <Box sx={{ml: 28}} />
 
                 <Typography variant='h4' sx={{ fontSize: 30, fontWeight: 500}} align='center'>
                     Completed Tickets
                 </Typography>
 
-                <Box sx={{ml: 30.4}} />
+                <Box sx={{ml: 23.8}} />
 
                 <Tooltip title="My Tickets">
                 <IconButton size='small' component={Link} to="/mytickets">
@@ -62,7 +62,7 @@ function ViewTickets() {
 
                 <Box sx={{ mt: 3 }} />
 
-                <Box sx={{ width: 1000, mr: 3 }}>
+                <Box sx={{ width: 950, mr: 3 }}>
                 <CompleteChart />
                 </Box>
 

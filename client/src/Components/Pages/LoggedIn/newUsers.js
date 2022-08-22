@@ -87,7 +87,7 @@ function NewUsers() {
                         <MenuItem value={1}>Project Manager</MenuItem>
                         <MenuItem value={2}>Team Manager</MenuItem>
                         <MenuItem value={3}>Editor</MenuItem>
-                        <MenuItem value={4}>Author</MenuItem>
+                        {/* <MenuItem value={4}>Author</MenuItem> */}
                     </Select>
 
 

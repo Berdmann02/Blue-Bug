@@ -5,6 +5,7 @@ import axios from 'axios';
 const initialState = {
     user: null,
     fetchingUser: true,
+    users: [],
     completeTickets: [],
     incompleteTickets: [],
 }
@@ -18,6 +19,11 @@ const globalReducer = (state, action) => {
                 ...state,
                 user: action.payload,
                 fetchingUser: false,
+            };
+        case "SET_USERS":
+            return {
+                ...state,
+                users: action.payload,
             };
         case "SET_COMPLETE_TICKETS":
             return {
@@ -35,6 +41,7 @@ const globalReducer = (state, action) => {
                 user: null,
                 completeTickets: [],
                 incompleteTickets: [],
+                users: [],
                 fetchingUser: false,
             };
         default:
@@ -51,6 +58,7 @@ export const GlobalProvider = (props) => {
 
     useEffect(() => {
         getCurrentUser();
+        getUsers();
     }, []);
 
     // action: get current user
@@ -75,6 +83,44 @@ export const GlobalProvider = (props) => {
         }
     };
 
+    // get all users
+    const getUsers = async () => {
+        try {
+            const res = await axios.get("/api/auth/users");
+
+            if (res.data) {
+                    dispatch({ type: "SET_USERS", payload: res.data });
+            } 
+            else {
+                dispatch({ type: "RESET_USER" });
+            }
+        } catch (err) {
+            console.log(err);
+            dispatch({ type: "RESET_USER" })
+        }
+    };
+
+
+
+
+    // const getUsers = async () => {
+    //     try {
+    //         const grab = await axios.get("/api/auth/users");
+
+    //         if (grab.data) {
+    //     dispatch({ type: "SET_USERS", payload: grab.data });
+    //         } else {
+    //             dispatch({ type: "RESET_USER" });
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //         console.log('grab failed');
+    //     }
+    //     }
+
+
+
+    // logout
     const logout = async () => {
         try {
             await axios.put("/api/auth/logout");
@@ -86,10 +132,20 @@ export const GlobalProvider = (props) => {
         }
     }
 
+    // add ticket
+    const addTicket = (ticket) => {
+        dispatch({
+            type: 'SET_INCOMPLETE_TICKETS',
+            payload: [ticket, ...state.incompleteTickets]
+        });
+    }
+
     const value = {
         ...state,
         getCurrentUser,
+        // getUsers,
         logout, 
+        addTicket,
     }
 
     return (

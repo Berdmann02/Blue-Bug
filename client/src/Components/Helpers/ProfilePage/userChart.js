@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { styled } from '@mui/material/styles'
 import Delete from './deleteUsers'
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const StyledTableCell = styled(TableCell)({
     [`&.${tableCellClasses.head}`]: {
@@ -26,7 +27,11 @@ function createData(info, user, role) {
     return { info, user, role };
 }
 
-export default function StickyHeadTable() {
+export default function UserChart() {
+
+    const { user } = useGlobalContext();
+
+
     const [open, setOpen] = React.useState(false);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -121,7 +126,7 @@ export default function StickyHeadTable() {
                             <option value={1}>Project Manager</option>
                             <option value={2}>Team Manager</option>
                             <option value={3}>Editor</option>
-                            <option value={4}>Author</option>
+                            {/* <option value={4}>Author</option> */}
                         </NativeSelect>
                         {/* <Typography>
                         Project Manager

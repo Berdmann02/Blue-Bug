@@ -13,6 +13,7 @@ import ThemeSwitch from '../../Helpers/Settings/themeSwitch'
 import PasswordIcon from '@mui/icons-material/Password';
 import { Navigate } from "react-router-dom"
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import NameChange from '../../Helpers/Settings/nameChange'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,33 +28,80 @@ function Settings({ parentCallback, value }) {
 
     const { user, fetchingUser } = useGlobalContext();
 
-    const [firstName, setFirstName] = React.useState(user.firstName);
-    const [lastName, setLastName] = React.useState(user.lastName);
-    const [email, setEmail] = React.useState(user.email);
-    const [editing, setEditing] = React.useState(false);
-    const input = React.useRef(null);
 
-    const onEdit = (e) => {
-        e.preventDefault();
-        setEditing(true);
-    }
+    // if(!fetchingUser){
+    // const [firstName, setFirstName] = React.useState();
+    // }
 
-    const stopEditing = (e) => {
-        if(e) {
-            e.preventDefault();
+    // function First(){
+    // React.useEffect(() => {
+    //     // 👇️ move object inside of useEffect
+    //     // and remove it from dependencies array
+    //     if(!fetchingUser){
+    // const [firstName, setFirstName] = React.useState(user.firstName);  
+    //     // const obj = user.firstName
+    //     // setFirstName(obj);
+    //     // console.log('useEffect called');
+    // }
+    //   }, [fetchingUser]);
+    // }
 
-        }
+    // console.log(firstName);
 
-        setEditing(false);
-        setFirstName(user.firstName);
-        setLastName(user.lastName);
-        setEmail(user.email);
-    }
+    
+    // React.useEffect(() => {
+    //     // 👇️ move object inside of useEffect
+    //     // and remove it from dependencies array
+    //     if(!fetchingUser){
+    //     const obj = user.firstName
+    //     setFirstName(obj);
+    //     // console.log('useEffect called');
+    // }
+    //   }, [fetchingUser]);
+
+    // if(!fetchingUser){
+    //     const [firstName, setFirstName] = React.useState(user.firstName);
+    // }
+
+    // function handleFirst() {
+    // React.useEffect(() => {
+    //     if(!fetchingUser){
+    //         setFirstName(user.firstName);  
+    // }
+    // }, [fetchingUser])
+// }
+
+    // const first = fetchingUser ? null : user.firstName
+
+    // console.log(first)
+
+    // const [firstName, setFirstName] = React.useState(fetchingUser ? null : user.firstName)
+    // const [firstName, setFirstName] = React.useState(!fetchingUser ? user.firstName : null);
+
+    // const [lastName, setLastName] = React.useState(user.lastName);
+    // const [email, setEmail] = React.useState(user.email);
+    // const [editing, setEditing] = React.useState(false);
+    // const input = React.useRef(null);
+
+    // const onEdit = (e) => {
+    //     e.preventDefault();
+    //     setEditing(true);
+    // }
+
+    // const stopEditing = (e) => {
+    //     if(e) {
+    //         e.preventDefault();
+
+    //     }
+
+    //     setEditing(false);
+    // }
 
     if (!user && fetchingUser === false) {
         return <Navigate to="/login" />
     }
-    return fetchingUser ? (
+    return fetchingUser ? 
+     (
         <Grid
             container
             direction="row"
@@ -62,7 +110,8 @@ function Settings({ parentCallback, value }) {
         >
             <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
         </Grid>
-    ) : (
+    ) : 
+    (
         <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
             <Grid container justifyContent="center" direction="column" alignItems="center">
                 <Paper sx={{ width: 975, height: 900 }}>
@@ -119,8 +168,10 @@ function Settings({ parentCallback, value }) {
                             <Divider sx={{ borderBottomWidth: 2, borderColor: '#1C75BC', ml: 2 }} style={{ width: '10%' }} />
                         </Grid>
 
+                        <NameChange/>
+
                         {/* <Grid container column sx={{ mt: 2 }}> */}
-                        <Grid
+                        {/* <Grid
                             container
                             direction="column"
                             justifyContent="center"
@@ -131,10 +182,10 @@ function Settings({ parentCallback, value }) {
                             {/* <Box sx={{ mt: 2 }} /> */}
 
 
-                            <TextField
+                            {/* <TextField
                                 id="outlined-helperText"
                                 label="First Name"
-                                defaultValue={firstName}
+                                defaultValue={user.firstName}
                                 sx={{ ml: 5 }}
                                 InputProps={{
                                     readOnly: !editing,
@@ -148,7 +199,8 @@ function Settings({ parentCallback, value }) {
                             <TextField
                                 id="outlined-helperText"
                                 label="Last Name"
-                                defaultValue={lastName}
+                                defaultValue='bye'
+                                // {lastName}
                                 sx={{ ml: 5 }}
                                 InputProps={{
                                     readOnly: true,
@@ -160,12 +212,13 @@ function Settings({ parentCallback, value }) {
                             <TextField
                                 id="outlined-helperText"
                                 label="Email"
-                                defaultValue={email}
+                                defaultValue='email here...'
+                                // {email}
                                 sx={{ ml: 5, width: 350 }}
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                            />
+                            /> */}
 
 
                             {/* <Typography sx={{ ml: 31.5, mt: 2, fontSize: 14.25 }}>
@@ -175,7 +228,7 @@ function Settings({ parentCallback, value }) {
                             </Typography> */}
 
 
-                            <Typography sx={{ ml: 31.5, mt: 1, fontSize: 14.25 }}>
+                            {/* <Typography sx={{ ml: 31.5, mt: 1, fontSize: 14.25 }}>
                                 <Link href="/change" underline="none" id='transfer'>
                                     {'Change password?'}
                                 </Link>
@@ -196,7 +249,7 @@ function Settings({ parentCallback, value }) {
                                 <Button variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 1 }}>Save</Button>
                             </Box>
                             </Grid>
-                            }
+                            }  */}
 
 
                             {/* <Typography sx={{ mt: 2, ml: 5 }}>
@@ -219,7 +272,7 @@ function Settings({ parentCallback, value }) {
                                 Change Password :
                             </Typography> */}
 
-                        </Grid>
+                        {/* </Grid> */}
                     </Grid>
 
                 </Paper>

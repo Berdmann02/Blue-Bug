@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -20,30 +21,60 @@ const MenuProps = {
 };
 
 const names = [
-  'Benjamin',
-  'Zacky',
+  'Ben',
   'Fede',
-  'Steve',
+  'Cat',
+  'Zacky'
 ];
 
-function getStyles(name, personName, theme) {
+function getStyles(name, assign, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      assign.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
-export default function MultipleSelectChip() {
+export default function MultipleSelectChip({ assign, setAssign }) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  // const [personName, setPersonName] = React.useState([]);
+
+  const { user, users } = useGlobalContext();
+
+//   const names =
+//   <div>
+//   {users.filter(currentUser => currentUser.includes(user)).map((filteredUsers) => (
+//   [
+//     // 'Benjamin E.',
+//     // 'Federico P.',
+//     // 'Catherine C.',
+//     // 'Zacky V.'
+//     {filteredUsers}
+//   ]
+//   )
+//   )
+// }
+// </div>
+
+  // const names = users;
+
+  console.log(users);
+
+  const names = 
+  [
+    (users.filter(currentUser => currentUser.includes(user)).map((filteredNames) => (
+      // {filteredNames}
+      console.log(filteredNames)
+    )))
+  ];
+
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setAssign(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
@@ -57,7 +88,7 @@ export default function MultipleSelectChip() {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={assign}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Assign Users" />}
           renderValue={(selected) => (
@@ -73,7 +104,7 @@ export default function MultipleSelectChip() {
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, personName, theme)}
+              style={getStyles(name, assign, theme)}
             >
               {name}
             </MenuItem>

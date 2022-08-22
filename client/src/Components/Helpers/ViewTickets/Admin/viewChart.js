@@ -25,15 +25,14 @@ const StyledTableCell = styled(TableCell)({
     }
 });
 
-function createData(info, name, user, severity, time, steps, expected, actual, visuals) {
-  return { info, name, user, severity, time, steps, expected, actual, visuals };
-}
+// function createData(info, name, user, severity, time, steps, expected, actual, visuals) {
+//   return { info, name, user, severity, time, steps, expected, actual, visuals };
+// }
 
 export default function ViewChart() {
   
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState("");
-  console.log(id);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -229,23 +228,23 @@ const { incompleteTickets } = useGlobalContext();
 // </BootstrapDialog>
 // </div>
 
-  const rows = [
-    createData( 'Create View Ticket Page', 'Ben, Zacky' , 'Critical', '42m'),
-    createData( 'Create Login Page', 'Fede, Jonathan, Zacky', 'Medium', '1hr'),
-    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-    createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-    createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
-    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-    createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-    createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
-    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-    createData( 'Link Pages', 'Ben', 'High', '42m'),
-    createData( 'Work on Settings', 'Fede', 'Medium', '23hr'),
-    createData( 'Create Profile Page', 'Zacky', 'Low', '1m'),
-    createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-    createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
-    createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-];
+//   const rows = [
+//     createData( 'Create View Ticket Page', 'Ben, Zacky' , 'Critical', '42m'),
+//     createData( 'Create Login Page', 'Fede, Jonathan, Zacky', 'Medium', '1hr'),
+//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+//     createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
+//     createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
+//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+//     createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
+//     createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
+//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+//     createData( 'Link Pages', 'Ben', 'High', '42m'),
+//     createData( 'Work on Settings', 'Fede', 'Medium', '23hr'),
+//     createData( 'Create Profile Page', 'Zacky', 'Low', '1m'),
+//     createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
+//     createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
+//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
+// ];
 
 //   const columns = [
 //     { id: 'info', label: ''
@@ -278,7 +277,7 @@ const { incompleteTickets } = useGlobalContext();
           <TableRow>
           <StyledTableCell width={100} />
           <StyledTableCell width={170} align="center" style={{ fontWeight: '500', fontStyle: 'italic' }}>Ticket Name</StyledTableCell>
-            <StyledTableCell width={100} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>User(s)</StyledTableCell>
+            <StyledTableCell width={200} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>User(s)</StyledTableCell>
             <StyledTableCell width={170} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>Severity</StyledTableCell>
             <StyledTableCell width={170} align="right" style={{ fontWeight: '500', fontStyle: 'italic' }}>Time Since Posting</StyledTableCell>
           </TableRow>
@@ -305,28 +304,32 @@ const { incompleteTickets } = useGlobalContext();
               <TableCell component="th" scope="row" align='center'>
                 {tickets.name}
               </TableCell>
-              <TableCell align='right'>{tickets.assign}</TableCell>
+              <TableCell align='right'>
+                <Box>
+                {tickets.assign.join(', ')}
+                 {/* (ticket) => {
+                  // <Box>
+                    {ticket.join('!')}
+                  // </Box>
+                    
+                })} */}
+                </Box> 
+                {/* {tickets.assign.map((item) => {
+                return <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                  <Typography>
+                    {item}, 
+                  </Typography>
+                  </Grid>
+              })} */}
+              </TableCell>
               <TableCell align="right">{tickets.severity}</TableCell>
               <TableCell align="right">{moment.utc(tickets.createdAt).local().startOf('seconds').fromNow()}</TableCell>
             </TableRow>
-            // <div>
-            //    <Button onClick={handleClickOpen}>Open modal</Button>
-            //   <Modal
-            //     open={open}
-            //     onClose={handleClose}
-            //     aria-labelledby="modal-modal-title"
-            //     aria-describedby="modal-modal-description"
-            //   >
-            //     <Box>
-            //       <Typography id="modal-modal-title" variant="h6" component="h2">
-            //         {tickets.name}
-            //       </Typography>
-            //       <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            //         Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            //       </Typography>
-            //     </Box>
-            //   </Modal>
-            // </div>
           ))}
         </TableBody>
       </Table>
@@ -334,13 +337,15 @@ const { incompleteTickets } = useGlobalContext();
     <TablePagination
       rowsPerPageOptions={[5, 10, 25]}
       component="div"
-      count={rows.length}
+      count={incompleteTickets.length}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
     />
   </Paper>
+   );
+  }
     
     
     
@@ -421,8 +426,7 @@ const { incompleteTickets } = useGlobalContext();
     //     onRowsPerPageChange={handleChangeRowsPerPage}
     //   />
     // </Paper>
-  );
-}
+ 
 
 
 

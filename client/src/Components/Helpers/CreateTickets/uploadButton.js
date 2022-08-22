@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 
 
-export default function CircularIntegration() {
+export default function CircularIntegration({ files, setFiles }) {
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const timer = React.useRef();
@@ -33,7 +33,7 @@ export default function CircularIntegration() {
         };
     }, []);
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (e) => {
         if (!loading) {
             setSuccess(false);
             setLoading(true);
@@ -41,6 +41,9 @@ export default function CircularIntegration() {
                 setSuccess(true);
                 setLoading(false);
             }, 2000);
+        }
+        if (e) {
+            setFiles(e.target.value);
         }
     };
 
@@ -50,7 +53,7 @@ export default function CircularIntegration() {
             {/* <Box sx={{ mt: 2 }}> */}
 
                 <label htmlFor="icon-button-file">
-                    <Input accept="image/*" id="icon-button-file" type="file" multiple onChange={handleButtonClick} />
+                    <Input value={files} accept="image/*" id="icon-button-file" type="file" multiple onChange={handleButtonClick} />
                     {success ?
                         <Box sx={{ mr: 1}}>
                             <Button variant="contained" sx={buttonSx} disabled={loading} aria-label="upload picture" component="span" size='small' endIcon={<PhotoCameraIcon />}>

@@ -38,12 +38,15 @@ router.post("/register", async (req, res) => {
         // hash the password
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
+        const defaultRole = 'Editor'
+
         // create a new user
         const newUser = new User({
             email: req.body.email,
             password: hashedPassword,
             firstName: req.body.firstName,
-            lastName: req.body.lastName
+            lastName: req.body.lastName,
+            role: defaultRole
         });
 
         // save the user to the database
@@ -138,6 +141,57 @@ router.get("/current", requiresAuth, (req, res) => {
 
     return res.json(req.user);
 })
+
+// @route      GET /api/auth/users
+// @desc       Return all users
+// @access     Private
+router.get("/users", requiresAuth, async (req, res) => {
+    try {
+    const users = await User.find({});
+        if (!users) {
+            return res
+            .status(400)
+            .json({ error: 'There was a problem with your login credentials'});
+        }
+        return res.json({users: users});
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send(err.message);
+    }
+}
+)
+//     try {
+// const users = await User.find({
+//     email: new RegExp("^" + req.body.email + "$", "i")
+// })
+
+//     } catch(err) {
+//         console.log(err);
+//         return status(500).send(err.message);
+//     }
+
+
+
+
+
+// router.get("/users", requiresAuth, (req, res) => {
+//     const users = auth.decode(req.headers.authorization)
+//         BlueBug.getAllUsers(req.params).then(user => res.send(user))
+// })
+
+
+// const allUsers = await User.find({
+//     email: new RegExp("^" + req.body.email + "$", "i")
+// })
+
+// router.get("/users", requiresAuth, (req, res) => {
+//     // if(!req.allUsers) {
+//     //     return res.status(401).send("No users found");
+//     // }
+
+//     return res.json(req.allUsers);
+// })
 
 // @route      PUT /api/auth/logout
 // @desc       Logout user and clear the cookie

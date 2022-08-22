@@ -28,10 +28,12 @@ const TicketSchema = new Schema(
             type: String,
             required: true,
         },
-        assign: {
-            type: String,
-            required: true,
-        },
+        assign: [
+            {
+                type: String,
+                required: true,
+            }
+        ],
         // content: {
         //     type: String,
         //     required: true,

@@ -21,9 +21,9 @@ function Forgot() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
+    // const { user } = useGlobalContext();
 
-    const { fetchingUser } = useGlobalContext();
+    const { fetchingUser, user } = useGlobalContext();
 
     if(user){
         return <Navigate to ='/' />

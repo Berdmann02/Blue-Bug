@@ -12,31 +12,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
-import Delete from '../deleteDialog'
+import Delete from './deleteDialog'
 import { Link } from "react-router-dom"
-import { useGlobalContext } from '../../../../Context/GlobalContext'
+import { useGlobalContext } from '../../../Context/GlobalContext'
 
 
 function Info(props){
 
-    const { incompleteTickets } = useGlobalContext();
+    const { completeTickets } = useGlobalContext();
 
-    // console.log(incompleteTickets.filter(ticket => ticket._id === ticketId));
-    // console.log(props.ticketId);
-    // const arr = [tickets]
-
-    // const Ticket = arr.filter(tickets => tickets._id);
-
-    // {Ticket.map((tickets) => (
-    //     console.log(tickets.name)
-    // ))}
-
-    // console.log(Ticket);
-
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    //   };
 
       const handleClose = () => {
         props.setOpen(false);
@@ -78,8 +62,6 @@ const BootstrapDialogTitle = (props) => {
   };
 
   return (
-  
-//  const info = 
  <div>
   <BootstrapDialog
    onClose={handleClose}
@@ -89,9 +71,31 @@ const BootstrapDialogTitle = (props) => {
    <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
      Ticket Information
    </BootstrapDialogTitle>
-   {/* {incompleteTickets.filter(tickets => tickets._id  */}
-   {incompleteTickets.filter(ticket => ticket._id === props.ticketId).map((tickets) => (
+   {completeTickets.filter(ticket => ticket._id === props.ticketId).map((tickets) => (
    <DialogContent dividers>
+                <Box component="div" sx={{ display: 'inline' }}>
+                    <Typography style={{ fontWeight: '700', fontStyle: 'italic' }} noWrap>
+                        User(s) :
+                    </Typography>
+                    <Box sx={{mt: 1}} />
+                    <Grid container direction="row" justifyContent="space-around" alignItems="center">
+                    <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
+                        <CardContent>
+                            <Typography variant="body1" >
+                                {tickets.assign}
+                                </Typography>
+                        </CardContent>
+                    </Card>
+                    </Grid>
+                    </Box>
+  
+  
+                <Box sx={{ mt: 3}} />
+
+
+
+
+
                 <Box component="div" sx={{ display: 'inline' }}>
                     <Typography style={{ fontWeight: '700', fontStyle: 'italic' }} noWrap>
                         Steps To Reproduce :
@@ -157,12 +161,10 @@ const BootstrapDialogTitle = (props) => {
                 <Grid container direction="row" justifyContent="space-around" alignItems="center">
                 <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
                     <CardContent>
-                      {/* {tickets.files < 0 ?   */}
-                      <Typography>
+                    {/* {tickets.files} */}
+                        <Typography>
                           No files loaded...
                         </Typography>
-                        {/* : */}
-                        {/* tickets.files} */}
                     </CardContent>
                 </Card>
                 </Grid>
@@ -177,7 +179,7 @@ const BootstrapDialogTitle = (props) => {
                   Complete Ticket :
                 </Typography>
   
-                <Checkbox {...{inputProps: { 'aria-label': 'Checkbox demo' }}} />
+                <Checkbox {...{inputProps: { 'aria-label': 'Checkbox demo' }}} defaultChecked />
   
                 </Grid>
   

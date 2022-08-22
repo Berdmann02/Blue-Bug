@@ -21,13 +21,9 @@ function Dashboard() {
 
   const { user, fetchingUser, incompleteTickets } = useGlobalContext();
 
-  console.log(user);
-
   if (!user && fetchingUser === false) {
     return <Navigate to="/login" />
   }
-
-  // console.log(incompleteTickets)
 
   return fetchingUser ? (
     <Grid
@@ -43,7 +39,7 @@ function Dashboard() {
 
       <Box component="span" sx={{ display: 'block' }}>
 
-        <Box component="span" sx={{ display: 'block', width: 385 }}>
+        <Box component="span" sx={{ display: 'block', width: 395 }}>
           {/* <Card sx={{ backgroundColor: '#1c4dbc' }}> */}
           {/* <Card variant='outlined' sx={{ borderColor: '#429be3' }}> */}
           {/* <Card> */}
