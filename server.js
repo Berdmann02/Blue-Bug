@@ -2,10 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const path = require('path');
 
 // import routes
 const authRoute = require("./routes/auth")
 const ticketsRoute = require("./routes/tickets");
+
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+})
 
 const app = express();
 
