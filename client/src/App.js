@@ -86,7 +86,7 @@ function App() {
 
   const { user } = useGlobalContext();
 
-
+  
   return (
     <GlobalProvider>
       <ThemeProvider theme={themeMode}>

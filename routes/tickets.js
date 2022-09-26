@@ -218,7 +218,7 @@ router.put("/:ticketId", requiresAuth, async (req, res) => {
 router.delete("/:ticketId", requiresAuth, async (req, res) => {
     try {
         const ticket = await Ticket.findOne({
-            user: req.user._id,
+            // user: req.user._id,
             _id: req.params.ticketId,
         });
         
@@ -227,7 +227,7 @@ router.delete("/:ticketId", requiresAuth, async (req, res) => {
         }
 
         await Ticket.findOneAndRemove({
-            user: req.user._id,
+            // user: req.user._id,
             _id: req.params.ticketId,
         })
 
