@@ -8,12 +8,6 @@ const path = require('path');
 const authRoute = require("./routes/auth")
 const ticketsRoute = require("./routes/tickets");
 
-app.use(express.static(path.resolve(__dirname, "./client/build")));
-
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-})
-
 const app = express();
 
 app.use(express.json({limit: '50mb'}));
@@ -26,6 +20,12 @@ app.get("/api", (req, res) => {
 
 app.use("/api/auth", authRoute);
 app.use("/api/tickets", ticketsRoute);
+
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+})
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Connected to database')
