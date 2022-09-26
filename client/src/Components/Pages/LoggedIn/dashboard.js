@@ -127,7 +127,7 @@ function Dashboard() {
       </Box>
 
 
-      <Box sx={{ pl: 3 }}>
+      <Box sx={{ pl: 13 }}>
         <Chart />
 
         <Typography variant="caption" style={{ fontStyle: 'italic' }} display="block" gutterBottom align='right' sx={{ color: '#808080', fontSize: 9, pr: 1 }}>
