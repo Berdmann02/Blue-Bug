@@ -62,7 +62,7 @@ const { completeTickets, user } = useGlobalContext();
         </TableHead>
         <TableBody>
         <Info open={open} setOpen={setOpen} ticketId={id}/>
-        {completeTickets.filter(ticket => ticket.assign.includes(user.firstName)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tickets) => (
+        {completeTickets.filter(ticket => ticket.assign.includes(user._id)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tickets) => (
             <TableRow
               hover
               key={tickets._id}
@@ -93,7 +93,7 @@ const { completeTickets, user } = useGlobalContext();
     <TablePagination
       rowsPerPageOptions={[5, 10, 25]}
       component="div"
-      count={completeTickets.filter(ticket => ticket.assign.includes(user.firstName)).length}
+      count={completeTickets.filter(ticket => ticket.assign.includes(user._id)).length}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}

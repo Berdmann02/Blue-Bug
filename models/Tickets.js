@@ -21,8 +21,12 @@ const TicketSchema = new Schema(
             type: String,
         },
         files: {
-            type: Buffer, 
-            contentType: String,
+            // type: Buffer, 
+            // data: Buffer,
+            // contentType: String,
+            // name: String,
+            // image: Buffer
+            type: String,
         },
         severity: {
             type: String,

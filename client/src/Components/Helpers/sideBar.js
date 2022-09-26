@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 
 function SideBar() {
 
-    const { logout } = useGlobalContext();
+    const { logout, user } = useGlobalContext();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -61,8 +61,6 @@ function SideBar() {
 
     const classes = useStyles();
 
-    const { user } = useGlobalContext();
-
     if(user){
     return (
         <Grid container>
@@ -78,13 +76,13 @@ function SideBar() {
                                 width='205' />
                         </Box>
 
-                        <Tooltip title='Notifications'>
+                        {/* <Tooltip title='Notifications'>
                         <IconButton size="large" component={Link} to="/notifications">
                             <Badge badgeContent={2} color='primary'>
                             <NotificationsIcon />
                             </Badge>
                         </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
 
                         <IconButton size="large" color="inherit"
                             aria-controls={open ? 'basic-menu' : undefined}
@@ -178,14 +176,21 @@ function SideBar() {
                     </List>
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/view">
+                            <ListItemButton component={Link} to={user.role.includes('Admin') ? "/view" : "/mytickets"}>
                                 <ListItemIcon>
                                     <ArticleIcon />
                                 </ListItemIcon>
                                 <ListItemText >
+                                    {user.role.includes('Admin') ?
                                     <Typography style={{ fontWeight: 400, fontStyle: 'italic' }}>
                                         View Tickets
                                     </Typography>
+                                    : 
+                                    <Typography style={{ fontWeight: 400, fontStyle: 'italic' }}>
+                                         My Tickets
+                                     </Typography> 
+                                     } 
+                                    
                                 </ListItemText>
                             </ListItemButton>
                         </ListItem>

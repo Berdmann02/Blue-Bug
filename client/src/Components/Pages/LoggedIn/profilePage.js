@@ -3,7 +3,7 @@ import {
     Box, TextField, Typography, Grid, Divider, Input, Button,
     FormLabel, FormControl, FormControlLabel, Radio, RadioGroup,
     Card, CardContent, CardActions, Paper, IconButton, Avatar,
-    Stack, Tooltip, CircularProgress
+    Stack, Tooltip, CircularProgress, Skeleton
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Picture from '../../Helpers/ProfilePage/uploadAvatar'
@@ -32,7 +32,7 @@ function ProfilePage({ value }) {
 
     const upload = <UploadIcon size='small' />
 
-    const { user, fetchingUser } = useGlobalContext();
+    const { user, fetchingUser, fetchingUsers } = useGlobalContext();
 
     if (!user && fetchingUser === false) {
         return <Navigate to="/login" />
@@ -134,13 +134,23 @@ function ProfilePage({ value }) {
                         </Card>
                     }
 
-                    <Box sx={{ ml: 95 }}>
-                        <Button component={Link} to="/newuser" startIcon={<AddIcon />} variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 2 }}>Create New User</Button>
-                    </Box>
+                    {user.role.includes('Admin') || user.role.includes('Project Manager') ? <Box sx={{ ml: 95 }}>
+                        <Button component={Link} to="/newuser" startIcon={<AddIcon />} 
+                        variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} 
+                        sx={{ mt: 2 }}>Create New User</Button>
+                    </Box> 
+                    :
+                    null}
 
                     <Box sx={{ mt: 2 }} />
 
-                    <UserChart />
+                    {fetchingUsers ? 
+                    <Skeleton variant="rounded"
+                     width={975} height={440}/>
+                    //     <UserChart />
+                    //  </Skeleton>
+                    : 
+                    <UserChart />}
 
                 </Paper>
             </Grid>

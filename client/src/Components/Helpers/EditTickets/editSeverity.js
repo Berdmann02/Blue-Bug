@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormLabel, FormControl, FormControlLabel, Radio, RadioGroup, Box } from '@mui/material'
 
-function ColorRadioButtons() {
+function ColorRadioButtons({severity, setSeverity}) {
 
   return (
     <FormControl sx={{ mt: 3}}>
@@ -11,7 +11,8 @@ function ColorRadioButtons() {
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
         color='primary'
-        defaultValue={'High'}
+        value={severity}
+        onChange={(e) => setSeverity(e.target.value)}
       >
         
         <FormControlLabel value="Low" control={<Radio sx={{ '&.Mui-checked': { color: '#388e3c' } }} />} label="Low" />

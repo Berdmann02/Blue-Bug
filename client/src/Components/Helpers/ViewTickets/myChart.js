@@ -44,7 +44,9 @@ export default function MyChart() {
     setPage(0);
   };
 
-const { incompleteTickets, user } = useGlobalContext();
+const { incompleteTickets, user, users } = useGlobalContext();
+
+  const USERS = users.users || []
 
 
   return (
@@ -62,7 +64,7 @@ const { incompleteTickets, user } = useGlobalContext();
         </TableHead>
         <TableBody>
         <Info open={open} setOpen={setOpen} ticketId={id}/>
-        {incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tickets) => (
+        {incompleteTickets.filter(ticket => ticket.assign.includes(user._id)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tickets) => (
             <TableRow
               hover
               key={tickets._id}
@@ -82,7 +84,14 @@ const { incompleteTickets, user } = useGlobalContext();
               <TableCell component="th" scope="row" align='center'>
                 {tickets.name}
               </TableCell>
-              <TableCell align='right'>{tickets.assign.join(', ')}</TableCell>
+              <TableCell align='right'>
+                {/* {tickets.assign.join(', ')} */}
+                {tickets.assign.map((item) => {
+                    return USERS.filter(({_id}) => _id === item).map((person) => (
+                      (person.firstName + ' ' + person.lastName.substring(0, 1) + '.')
+                    ))
+                }).join(', ')}
+                </TableCell>
               <TableCell align="right">{tickets.severity}</TableCell>
               <TableCell align="right">{moment.utc(tickets.createdAt).local().startOf('seconds').fromNow()}</TableCell>
             </TableRow>
@@ -93,7 +102,7 @@ const { incompleteTickets, user } = useGlobalContext();
     <TablePagination
       rowsPerPageOptions={[5, 10, 25]}
       component="div"
-      count={incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName)).length}
+      count={incompleteTickets.filter(ticket => ticket.assign.includes(user._id)).length}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}

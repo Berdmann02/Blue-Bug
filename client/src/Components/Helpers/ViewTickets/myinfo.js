@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
-import Delete from './deleteDialog'
+import Delete from './myDeleteDialog'
 import { Link } from "react-router-dom"
 import { useGlobalContext } from '../../../Context/GlobalContext'
 
@@ -63,6 +63,7 @@ const BootstrapDialogTitle = (props) => {
 
   return (
  <div>
+  {incompleteTickets.filter(ticket => ticket._id === props.ticketId).map((tickets) => (
   <BootstrapDialog
    onClose={handleClose}
    aria-labelledby="customized-dialog-title"
@@ -71,7 +72,6 @@ const BootstrapDialogTitle = (props) => {
    <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
      Ticket Information
    </BootstrapDialogTitle>
-   {incompleteTickets.filter(ticket => ticket._id === props.ticketId).map((tickets) => (
    <DialogContent dividers>
                 <Box component="div" sx={{ display: 'inline' }}>
                     <Typography style={{ fontWeight: '700', fontStyle: 'italic' }} noWrap>
@@ -138,17 +138,20 @@ const BootstrapDialogTitle = (props) => {
                 <Grid container direction="row" justifyContent="space-around" alignItems="center">
                 <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
                     <CardContent>
-                    {/* {tickets.files} */}
-                        <Typography>
+                        {!tickets.files ?
+                  <Typography>
                           No files loaded...
                         </Typography>
+                  :
+                  <img src={`data:image;base64,${tickets.files}`} width={370} />
+                    }
                     </CardContent>
                 </Card>
                 </Grid>
   
                 <Box sx={{ mt: 2}} />
   
-                <Grid container
+                {/* <Grid container
                       direction="row"
                       justifyContent="flex-start"
                       alignItems="center">
@@ -158,12 +161,12 @@ const BootstrapDialogTitle = (props) => {
   
                 <Checkbox {...{inputProps: { 'aria-label': 'Checkbox demo' }}} />
   
-                </Grid>
+                </Grid> */}
   
                 <Box sx={{ mt: 2}} />
   
    </DialogContent>
-   ))}
+
    <DialogActions>
    <Grid
                       container
@@ -171,17 +174,18 @@ const BootstrapDialogTitle = (props) => {
                       justifyContent="flex-start"
                       alignItems="center"
                   >
-                      <Delete />
+                      <Delete ticket={tickets} />
       
                   </Grid>
-   <Button component={Link} to="/edit:ticketid" autoFocus onClick={handleClose}>
+   <Button component={Link} to={`/edit/${tickets._id}`} autoFocus onClick={handleClose}>
        Edit
      </Button>
-     <Button autoFocus onClick={handleClose}>
+     {/* <Button autoFocus onClick={handleClose}>
        Save
-     </Button>
+     </Button> */}
    </DialogActions>
   </BootstrapDialog>
+   ))}
   </div>
   )
 }

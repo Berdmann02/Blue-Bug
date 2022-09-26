@@ -8,6 +8,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import { Navigate } from "react-router-dom"
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import axios from 'axios'
 
 
 
@@ -23,16 +24,64 @@ function NewUsers() {
 
     const classes = useStyles();
 
+    const { getCurrentUser, user, fetchingUser } = useGlobalContext();
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [role, setRole] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [confirmPassword, setConfirmPassword] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+    const [errors, setErrors] = React.useState({});
+
+    const [submit, setSubmit] = React.useState(false);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        // setLoading(true);
+
+        let data = {};
+
+            data = {
+                firstName,
+                lastName,
+                role,
+                email,
+                password,
+                confirmPassword
+            };
+
+        axios.post("/api/auth/newuser", data).then(() => {
+            setFirstName('');
+            setLastName('');
+            setRole('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+
+
+            // getCurrentUser();
+        }).catch(err => {
+            setLoading(false);
+
+            if (err?.response?.data) {
+                setErrors(err.response.data);
+            }
+        })
+
+        setSubmit(true);
+    };
 
     const handleChange = (event) => {
         setRole(event.target.value);
     };
 
-    const { user, fetchingUser } = useGlobalContext();
-
     if(!user && fetchingUser === false){
         return <Navigate to="/login" />
+      }
+
+      if(submit){
+        return <Navigate to='/current' />
       }
 
   return fetchingUser ? (
@@ -60,9 +109,16 @@ function NewUsers() {
 
                 <Box sx={{ mt: 2 }} />
 
-                <TextField required id="outlined-password-input" label="First Name" size='small' margin="normal" color='primary' style={{ width: 350 }} />
+                <form onSubmit={onSubmit}>
+                <Grid container justifyContent="center" direction="column" alignItems="center">
 
-                <TextField required id="outlined-password-input" label="Last Name" size='small' margin="normal" color='primary' style={{ width: 350 }} />
+                <TextField value={firstName} onChange={e => setFirstName(e.target.value)} 
+                required id="new-user-first-name" label="First Name" size='small' 
+                margin="normal" color='primary' style={{ width: 350 }} />
+
+                <TextField value={lastName} onChange={e => setLastName(e.target.value)} 
+                required id="new-user-last-name" label="Last Name" size='small' 
+                margin="normal" color='primary' style={{ width: 350 }} />
 
                 <Box sx={{ mt: 3 }} />
 
@@ -73,51 +129,47 @@ function NewUsers() {
                     alignItems="center"
                 >
 
-                    <InputLabel id="demo-simple-select-label">Role:</InputLabel>
+                    <InputLabel id="new-user-select-label">Role:</InputLabel>
 
                     <Box sx={{ ml: 3 }} />
 
                     <Select
                         size='small'
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="new-user-select-label"
+                        id="new-user-select"
                         value={role}
                         onChange={handleChange}
                     >
-                        <MenuItem value={1}>Project Manager</MenuItem>
-                        <MenuItem value={2}>Team Manager</MenuItem>
-                        <MenuItem value={3}>Editor</MenuItem>
-                        {/* <MenuItem value={4}>Author</MenuItem> */}
+                        {user.role.includes('Admin') ? <MenuItem value={'Admin'}>Admin</MenuItem> : null}
+                        <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
+                        <MenuItem value={'Editor'}>Editor</MenuItem>
+                        <MenuItem value={'Updater'}>Updater</MenuItem>
                     </Select>
-
-
-                    {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Role:
-                    </InputLabel>
-                    <Box sx={{ ml: 3 }} />
-                    <NativeSelect
-                    // defaultValue={1}
-                    // inputProps={{
-                    //     name: 'role',
-                    //     id: 'uncontrolled-native',
-                    // }}
-                    >
-                        <option value={1}>Project Manager</option>
-                        <option value={2}>Team Manager</option>
-                        <option value={3}>Editor</option>
-                        <option value={4}>Author</option>
-                    </NativeSelect> */}
 
                 </Grid>
 
                 <Box sx={{ mt: 3 }} />
 
-                <TextField required id="outlined-password-input" label="Email" size='small' margin="normal" color='primary' style={{ width: 350 }} />
+                <TextField value={email} onChange={e => setEmail(e.target.value)} 
+                required id="new-user-email" label="Email" size='small' 
+                margin="normal" color='primary' style={{ width: 350 }} />
 
-                <TextField id="outlined-password-input" label="Password" type="password" size='small' margin="normal" color='primary' style={{ width: 350 }} />
+                <TextField value={password} onChange={e => setPassword(e.target.value)} 
+                id="new-user-password" label="Password" type="password" size='small' 
+                margin="normal" color='primary' style={{ width: 350 }} />
+
+<TextField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} 
+                id="new-user-confirm-password" label="Confirm Password" type="password" size='small' 
+                margin="normal" color='primary' style={{ width: 350 }} />
 
 
-                <Button variant="contained" size='large' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 3 }}>Create Account</Button>
+                <Button disabled={loading} type='submit' variant="contained" size='large' 
+                style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 3 }}>
+                    Create Account
+                    </Button>
+
+                </Grid>
+                </form>
 
                 <Box sx={{ mt: 3 }} />
 

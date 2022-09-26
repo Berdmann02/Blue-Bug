@@ -69,7 +69,9 @@ export default function ViewChart() {
 //   },
 // }));
 
-const { incompleteTickets } = useGlobalContext();
+const { incompleteTickets, users } = useGlobalContext();
+
+const USERS = users.users || []
 
 // const BootstrapDialogTitle = (props) => {
 //   const { children, onClose, ...other } = props;
@@ -306,7 +308,14 @@ const { incompleteTickets } = useGlobalContext();
               </TableCell>
               <TableCell align='right'>
                 <Box>
-                {tickets.assign.join(', ')}
+                {/* {USERS.filter(people => people._id === tickets.assign).map((person) => person.firstName + ' ' + person.lastName.substring(0, 1) + '.'
+                )} */}
+                {/* {tickets.assign.join(', ')} */}
+                {tickets.assign.map((item) => {
+                    return USERS.filter(({_id}) => _id === item).map((person) => (
+                      (person.firstName + ' ' + person.lastName.substring(0, 1) + '.')
+                    ))
+                }).join(', ')}
                  {/* (ticket) => {
                   // <Box>
                     {ticket.join('!')}

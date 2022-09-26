@@ -9,10 +9,27 @@ import {
     Checkbox, Tooltip, DialogContentText
 } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import axios from 'axios'
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
-export default function AlertDialog() {
+export default function AlertDialog({ people }) {
+
+  const { removeUser } = useGlobalContext();
+
   const [open, setOpen] = React.useState(false);
+
+  const deleteUser = (e) => {
+    e.preventDefault();
+
+    axios.delete(`/api/auth/${people._id}`).then(() => {
+      removeUser(people);
+    })
+
+    setOpen(false);
+
+    window.location.reload(false);
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,7 +62,7 @@ export default function AlertDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Recover</Button>
-          <Button style={{ color: '#f44336' }} onClick={handleClose} autoFocus>
+          <Button style={{ color: '#f44336' }} onClick={deleteUser} autoFocus>
             Delete
           </Button>
         </DialogActions>

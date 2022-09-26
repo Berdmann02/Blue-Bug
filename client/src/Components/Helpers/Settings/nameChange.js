@@ -6,6 +6,7 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +19,7 @@ function NameChange() {
 
     const classes = useStyles();
 
-    const { user, fetchingUser } = useGlobalContext();
+    const { user, fetchingUser, updateUser } = useGlobalContext();
 
     const [firstName, setFirstName] = React.useState(user.firstName);
     const [lastName, setLastName] = React.useState(user.lastName);
@@ -41,6 +42,17 @@ function NameChange() {
         setLastName(user.lastName);
         setEmail(user.email);
         window.location.reload(false);
+    }
+
+    const editUser = e => {
+        e.preventDefault();
+
+        axios.put(`/api/auth/${user._id}`, { firstName, lastName, email }).then(res => {
+            updateUser(res.data);
+            setEditing(false);
+        }).catch(() => {
+            stopEditing();
+        })
     }
 
     return (
@@ -114,7 +126,7 @@ function NameChange() {
 
 
                             <Box sx={{ ml: 1 }}>
-                                <Button variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 1 }}>Save</Button>
+                                <Button onClick={editUser} variant="contained" size='medium' style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 1 }}>Save</Button>
                             </Box>
                             </Grid>
                             }

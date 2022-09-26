@@ -21,9 +21,17 @@ function ViewTickets() {
 
     const { user, fetchingUser } = useGlobalContext();
 
+
     if(!user && fetchingUser === false){
         return <Navigate to="/login" />
       }
+
+    if(user){
+            const { role } = user
+            if(role.includes('Editor')){
+                return <Navigate to='/mytickets' />
+            }
+    };
 
       return fetchingUser ? (
         <Grid
@@ -83,5 +91,6 @@ function ViewTickets() {
         </Box>
     )
 }
+
 
 export default ViewTickets;

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Register({ register }) {
+function Register() {
 
     const { getCurrentUser, user } = useGlobalContext();
     const [firstName, setFirstName] = React.useState('');
@@ -37,7 +37,6 @@ function Register({ register }) {
 
         let data = {};
 
-        if (register) {
             data = {
                 firstName,
                 lastName,
@@ -45,7 +44,6 @@ function Register({ register }) {
                 password,
                 confirmPassword
             };
-        }
 
         axios.post("/api/auth/register", data).then(() => {
             getCurrentUser();
@@ -56,6 +54,8 @@ function Register({ register }) {
                 setErrors(err.response.data);
             }
         })
+
+        // console.log(data);
     };
 
     const { fetchingUser } = useGlobalContext();

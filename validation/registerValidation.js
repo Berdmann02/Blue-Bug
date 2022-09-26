@@ -25,7 +25,7 @@ const validateRegisterInput = (data) => {
         errors.firstName = "First Name must be between 2 and 30 characters long";
     }
 
-    // check first name field
+    // check last name field
     if(isEmpty(data.lastName)) {
         errors.lastName = "Please provide a Last Name!";
     } else if (!Validator.isLength(data.lastName, {min: 2, max: 30})) {

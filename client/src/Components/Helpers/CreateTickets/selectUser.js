@@ -20,66 +20,45 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Ben',
-  'Fede',
-  'Cat',
-  'Zacky'
-];
 
-function getStyles(name, assign, theme) {
-  return {
-    fontWeight:
-      assign.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
+// function getStyles(people, assign, theme) {
+//   return {
+//     fontWeight:
+//       personName.indexOf(people) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium,
+//   };
+// }
 
 export default function MultipleSelectChip({ assign, setAssign }) {
+
   const theme = useTheme();
-  // const [personName, setPersonName] = React.useState([]);
 
-  const { user, users } = useGlobalContext();
+  const { users } = useGlobalContext();
 
-//   const names =
-//   <div>
-//   {users.filter(currentUser => currentUser.includes(user)).map((filteredUsers) => (
-//   [
-//     // 'Benjamin E.',
-//     // 'Federico P.',
-//     // 'Catherine C.',
-//     // 'Zacky V.'
-//     {filteredUsers}
-//   ]
-//   )
-//   )
-// }
-// </div>
+  const USERS = users.users || []
 
-  // const names = users;
-
-  console.log(users);
-
-  const names = 
-  [
-    (users.filter(currentUser => currentUser.includes(user)).map((filteredNames) => (
-      // {filteredNames}
-      console.log(filteredNames)
-    )))
-  ];
-
+  const [personName, setPersonName] = React.useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setAssign(
+    setPersonName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+
+
+    setAssign(value);
+
   };
 
+  // if(users === null){
+  //    window.location.reload();
+  // }
+// return fetchingUsers ? (null) :
+// (
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }} size='small'>
@@ -88,29 +67,28 @@ export default function MultipleSelectChip({ assign, setAssign }) {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={assign}
+          value={personName}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Assign Users" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip key={value} label={USERS.filter(({_id}) => _id === value).map((person) => person.firstName + ' ' + person.lastName.substring(0, 1) + '.')} />
               ))}
             </Box>
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {USERS.map((people) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, assign, theme)}
+              value={people._id}
             >
-              {name}
+              {people.firstName + ' ' + people.lastName.substring(0, 1) + '.'}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
     </div>
   );
+// )
 }

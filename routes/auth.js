@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User")
 const bcrypt = require("bcryptjs");
 const validateRegisterInput = require("../validation/registerValidation");
+const validateUserInput = require("../validation/updateUserValidation");
 const jwt = require('jsonwebtoken');
 const requiresAuth = require('../middleware/permissions');
 
@@ -38,7 +39,7 @@ router.post("/register", async (req, res) => {
         // hash the password
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
-        const defaultRole = 'Editor'
+        const defaultRole = 'Updater'
 
         // create a new user
         const newUser = new User({
@@ -74,6 +75,68 @@ router.post("/register", async (req, res) => {
         console.log(err);
 
         res.status(500).send(err.message);
+    }
+})
+
+// @route      POST /api/auth/newuser
+// @desc       Create a new user
+// @access     Private
+router.post("/newuser", requiresAuth, async (req, res) => {
+    try {
+        const {errors, isValid} = validateRegisterInput(req.body);
+
+        if(!isValid) {
+            return res.status(400).json(errors);
+        }
+
+        // check for existing user
+        const existingEmail = await User.findOne({ 
+            email: new RegExp("^" + req.body.email + "$", "i")
+        });
+
+        if(existingEmail) {
+            return res
+            .status(400)
+            .json({ error: "There is already a user with this email" });
+        }
+
+        // hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
+        // create a new user
+        const newUser = new User({
+            email: req.body.email,
+            password: hashedPassword,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            role: req.body.role,
+        });
+
+        // save the user to the database
+        await newUser.save();
+
+        // const payload = { userId: savedUser._id };
+
+            // const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            //     expiresIn: "7d"
+            // });
+
+            // res.cookie("access-token", token, {
+            //     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            //     httpOnly: true,
+            //     secure: process.env.NODE_ENV === "production"
+            // });
+
+        // const userToReturn = { ...savedUser._doc };
+        // delete userToReturn.password;
+
+        // return the new user
+        return res.json(newUser);
+    } catch (err) {
+         // error here
+        console.log(err);
+
+        return res.status(500).send(err.message);
     }
 })
 
@@ -161,37 +224,7 @@ router.get("/users", requiresAuth, async (req, res) => {
     }
 }
 )
-//     try {
-// const users = await User.find({
-//     email: new RegExp("^" + req.body.email + "$", "i")
-// })
 
-//     } catch(err) {
-//         console.log(err);
-//         return status(500).send(err.message);
-//     }
-
-
-
-
-
-// router.get("/users", requiresAuth, (req, res) => {
-//     const users = auth.decode(req.headers.authorization)
-//         BlueBug.getAllUsers(req.params).then(user => res.send(user))
-// })
-
-
-// const allUsers = await User.find({
-//     email: new RegExp("^" + req.body.email + "$", "i")
-// })
-
-// router.get("/users", requiresAuth, (req, res) => {
-//     // if(!req.allUsers) {
-//     //     return res.status(401).send("No users found");
-//     // }
-
-//     return res.json(req.allUsers);
-// })
 
 // @route      PUT /api/auth/logout
 // @desc       Logout user and clear the cookie
@@ -206,5 +239,114 @@ router.put("/logout", requiresAuth, async(req, res) => {
         return status(500).send(err.message);
     }
 })
+
+// @route      PUT /api/auth/:userId
+// @desc       Update a user's information
+// @access     Private
+router.put("/:userId", requiresAuth, async (req, res) => {
+    try {
+        const user = await User.findOne({
+            // user: req.user._id,
+            // email: new RegExp("^" + req.body.email + "$", "i")
+            _id: req.params.userId,
+        });
+
+        if(!user) {
+            return res.status(404).json({error: 'Could not find user'});
+        }
+
+        const { isValid, errors } = validateUserInput(req.body);
+
+        if(!isValid) {
+            return res.status(400).json(errors);
+        }
+
+        const updatedUser = await User.findOneAndUpdate(
+            {
+                // email: new RegExp("^" + req.body.email + "$", "i")
+                _id: req.params.userId,
+            },
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                // password: req.body.email
+            },
+            {
+                new: true
+            }
+        );
+
+        return res.json(updatedUser);
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send(err.message);
+    }
+});
+
+// @route      DELETE /api/auth/:userId
+// @desc       Delete user
+// @access     Private
+router.delete("/:userId", requiresAuth, async (req, res) => {
+    try {
+        const user = await User.findOne({
+            _id: req.params.userId,
+        });
+
+        if(!user) {
+            return res.status(404).json({error: "Could not find user"});
+        }
+
+        await User.findOneAndRemove({
+            _id: req.params.userId,
+        })
+
+        return res.json({ success: true })
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send(err.message);
+    }
+});
+
+// @route      PUT /api/auth/current/:userId
+// @desc       Update a user's role
+// @access     Private
+router.put("/current/:userId", requiresAuth, async (req, res) => {
+    try {
+        const user = await User.findOne({
+            // user: req.user._id,
+            // email: new RegExp("^" + req.body.email + "$", "i")
+            _id: req.params.userId,
+        });
+
+        if(!user) {
+            return res.status(404).json({error: 'Could not find user'});
+        }
+
+        // const { isValid, errors } = validateUserInput(req.body);
+
+        // if(!isValid) {
+        //     return res.status(400).json(errors);
+        // }
+
+        const updatedUser = await User.findOneAndUpdate(
+            {
+                // email: new RegExp("^" + req.body.email + "$", "i")
+                _id: req.params.userId,
+            },
+            {
+                role: req.body.role
+            },
+            {
+                new: true
+            }
+        );
+
+        return res.json(updatedUser);
+    } catch(err) {
+        console.log(err);
+        return res.status(500).send(err.message);
+    }
+});
 
 module.exports = router;

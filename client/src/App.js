@@ -15,11 +15,14 @@ import CompletedTickets from './Components/Pages/LoggedIn/completedTickets'
 import Settings from './Components/Pages/LoggedIn/settings'
 import ChangePassword from './Components/Pages/LoggedIn/changePassword'
 import NewUsers from './Components/Pages/LoggedIn/newUsers';
-import EditTickets from './Components/Pages/LoggedIn/editTickets'
+// import EditTickets from './Components/Pages/LoggedIn/editTickets'
 import Notifications from './Components/Pages/LoggedIn/notifications'
 import Login from './Components/Pages/LoggedOut/Login'
 import Register from './Components/Pages/LoggedOut/register'
 import ForgotPassword from './Components/Pages/LoggedOut/forgotPassword'
+import UploadButton from './Components/Helpers/CreateTickets/uploadButton'
+
+import EditTicketsPage from './Components/Pages/LoggedIn/editTicketsPage';
 
 
 function App() {
@@ -97,10 +100,10 @@ function App() {
               <Route exact path='/new' element={<CreateTicket user={user}/>} />
               <Route exact path='/current' element={<ProfilePage value={value} user={user}/>} />
               <Route exact path='/completed' element={<CompletedTickets user={user}/>} />
-              <Route exact path='/view' element={<ViewTickets user={user}/>} />
+              <Route exact path='/view' element={<ViewTickets user={user} />} />
               <Route exact path='/mytickets' element={<MyTickets user={user}/>} />
-              <Route exact path='/notifications' element={<Notifications user={user}/>} />
-              <Route exact path='/edit/:ticketid' element={<EditTickets user={user}/>} />
+              {/* <Route exact path='/notifications' element={<Notifications user={user}/>} /> */}
+              <Route exact path='/edit/:id' element={<EditTicketsPage user={user}/>} />
               <Route exact path='/change' element={<ChangePassword user={user}/>} />
               <Route exact path='/newuser' element={<NewUsers user={user}/>} />
               <Route exact path='/settings' element={<Settings user={user} state={theme} parentCallback={themeToggler} value={value} />} />

@@ -26,7 +26,7 @@ import moment from 'moment';
 
 function DashTable() {
 
-  const { incompleteTickets } = useGlobalContext();
+  const { incompleteTickets, user } = useGlobalContext();
   
 
   return (
@@ -40,7 +40,7 @@ function DashTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-        {incompleteTickets.sort().slice(0,3).map((tickets) => (
+        {incompleteTickets.filter(ticket => ticket.assign.includes(user._id)).sort().slice(0,3).map((tickets) => (
             <TableRow
               hover
               key={tickets._id}

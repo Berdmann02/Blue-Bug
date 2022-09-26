@@ -5,7 +5,6 @@ import Chart from '../../Helpers/Dashboard/chart';
 import Table from '../../Helpers/Dashboard/dashTable';
 import { Navigate } from "react-router-dom"
 import { useGlobalContext } from '../../../Context/GlobalContext';
-import TicketCard from '../TicketCard'
 
 
 
@@ -20,6 +19,40 @@ function Dashboard() {
   const classes = useStyles();
 
   const { user, fetchingUser, incompleteTickets } = useGlobalContext();
+  // const [zero, setZero] = React.useState(false);
+  // const [one, setOne] = React.useState(false);
+  // const [more, setMore] = React.useState(false);
+
+  // function checkTickets () {
+  //   if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 0) {
+  //     return (
+  //       <Typography variant='h6' sx={{ mt: 3 }} noWrap>
+  //               You do not have any tickets assigned to you!
+  //               </Typography> 
+  //     )
+  //   } 
+
+  //   if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 1) {
+  //     return (
+  //       <Typography variant='h6' sx={{ mt: 3 }} noWrap>
+  //               There is 1 ticket waiting for you!
+  //               </Typography> 
+  //     )
+  //   }
+  // }
+
+    //  if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 0) {
+    //   setZero(true);
+    // } 
+
+    // if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 1) {
+    //   setOne(true);
+    // } 
+
+    // if(zero && one === false) {
+    //   setMore(true);
+    // }
+
 
   if (!user && fetchingUser === false) {
     return <Navigate to="/login" />
@@ -53,9 +86,31 @@ function Dashboard() {
                 {user.firstName},
               </Typography>
 
+
+            {/* {zero ? <Typography variant='h6' sx={{ mt: 3 }} noWrap>
+                 You do not have any tickets assigned to you!
+                 </Typography> : null }
+
+            {one ? <Typography variant='h6' sx={{ mt: 3 }} noWrap>
+                 There is 1 ticket waiting for you!
+                 </Typography> : null}
+
+            {more ? <Typography variant='h6' sx={{ mt: 3 }} noWrap>There are { incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length} tickets waiting for you! </Typography> 
+            : null} */}
+
+
+
+
+              {incompleteTickets.filter(ticket => ticket.assign.includes(user._id)).length === 1 ? 
+                <Typography variant='h6' sx={{ mt: 3 }} noWrap>
+                There is 1 ticket waiting for you!
+                </Typography> :
               <Typography variant='h6' sx={{ mt: 3 }} noWrap>
-                There are {incompleteTickets.length} tickets waiting for you!
-              </Typography>
+                 {/* There are {incompleteTickets.length} tickets waiting for you! */}
+                There are { incompleteTickets.filter(ticket => ticket.assign.includes(user._id)).length} tickets waiting for you!
+                {/* {incompleteTickets.filter(ticket => ticket.assign === (user.firstName + ' ' + user.lastName.substring(0,1) + '.')).length} */}
+             </Typography>
+                } 
 
             </CardContent>
           </Card>

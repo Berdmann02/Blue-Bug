@@ -5,9 +5,11 @@ import axios from 'axios';
 const initialState = {
     user: null,
     fetchingUser: true,
+    fetchingUsers: true,
     users: [],
     completeTickets: [],
     incompleteTickets: [],
+    allTickets: [],
 }
 
 // reducer
@@ -24,6 +26,7 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 users: action.payload,
+                fetchingUsers: false,
             };
         case "SET_COMPLETE_TICKETS":
             return {
@@ -35,14 +38,21 @@ const globalReducer = (state, action) => {
                 ...state,
                 incompleteTickets: action.payload
             };
+        case "SET_ALL_TICKETS":
+            return {
+                ...state,
+                allTickets: action.payload
+            }
         case "RESET_USER":
             return {
                 ...state,
                 user: null,
                 completeTickets: [],
                 incompleteTickets: [],
+                allTickets: [],
                 users: [],
                 fetchingUser: false,
+                fetchingUsers: false,
             };
         default:
             return state;
@@ -59,6 +69,7 @@ export const GlobalProvider = (props) => {
     useEffect(() => {
         getCurrentUser();
         getUsers();
+        getTickets();
     }, []);
 
     // action: get current user
@@ -100,23 +111,60 @@ export const GlobalProvider = (props) => {
         }
     };
 
+    // get all tickets
+    const getTickets = async () => {
+        try {
+            const res = await axios.get("/api/tickets/alltickets");
 
+            if (res.data) {
+                    dispatch({ type: "SET_ALL_TICKETS", payload: res.data });
+            } 
+            else {
+                dispatch({ type: "RESET_USER" });
+            }
+        } catch (err) {
+            console.log(err);
+            dispatch({ type: "RESET_USER" })
+        }
+    };
 
+    // update user information
+    const updateUser = (user) => {
+        const newUsers = state.user.map(
+            (userUpdate) => userUpdate._id !== user._id ? 
+            userUpdate : user
+        );
 
-    // const getUsers = async () => {
-    //     try {
-    //         const grab = await axios.get("/api/auth/users");
+        dispatch({
+            type: "SET_USER_UPDATE",
+            payload: newUsers,
+        });  
+    }
 
-    //         if (grab.data) {
-    //     dispatch({ type: "SET_USERS", payload: grab.data });
-    //         } else {
-    //             dispatch({ type: "RESET_USER" });
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //         console.log('grab failed');
-    //     }
-    //     }
+    // update ticket information
+    const updateTicket = (ticket) => {
+        if(ticket.complete) {
+            const newCompleteTickets = state.completeTickets.map(
+                (completeTicket) => completeTicket._id !== ticket._id ? 
+                completeTicket : ticket
+            );
+
+            dispatch({
+                type: "SET_COMPLETE_TICKETS",
+                payload: newCompleteTickets,
+            });
+        } else {
+            const newIncompleteTickets = state.incompleteTickets.map(
+                (incompleteTicket) => incompleteTicket._id !== ticket._id ? 
+                incompleteTicket : ticket
+            );
+
+            dispatch({
+                type: "SET_INCOMPLETE_TICKETS",
+                payload: newIncompleteTickets,
+            });
+        }
+    }
 
 
 
@@ -140,12 +188,83 @@ export const GlobalProvider = (props) => {
         });
     }
 
+    // mark ticket as complete
+    const ticketComplete = ticket => {
+        dispatch({
+            type: "SET_INCOMPLETE_TICKETS",
+            payload: state.incompleteTickets.filter(
+                (incompleteTicket) => incompleteTicket._id !== ticket._id
+                )
+        })
+
+        dispatch({
+            type: "SET_COMPLETE_TICKETS",
+            payload: [ticket, ...state.completeTickets]
+
+        })
+    }
+
+    // mark ticket as incomplete
+    const ticketIncomplete = ticket => {
+        dispatch({
+            type: "SET_COMPLETE_TICKETS",
+            payload: state.completeTickets.filter(
+                (completeTicket) => completeTicket._id !== ticket._id
+            ),
+        });
+
+        const newIncompleteTickets = [ticket, ...state.incompleteTickets];
+
+        dispatch({
+            type: "SET_INCOMPLETE_TICKETS",
+            payload: newIncompleteTickets.sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            )
+        })
+    }
+
+    // remove ticket
+    const removeTicket = (ticket) => {
+        if(ticket.complete) {
+            dispatch({
+                type: "SET_COMPLETE_TICKETS",
+                payload: state.completeTickets.filter(
+                    (completeTicket) => completeTicket._id !== ticket._id
+                )
+            })
+        } else {
+            dispatch({
+                type: "SET_INCOMPLETE_TICKETS",
+                payload: state.incompleteTickets.filter(
+                    (incompleteTicket) => incompleteTicket._id !== ticket._id
+                )
+            })
+        }
+    }
+
+    // remove user
+    const removeUser = (person) => {
+            dispatch({
+                type: "SET_USERS",
+                payload: state.users.filter(
+                    (user) => user._id !== person._id
+                )
+            })
+    }
+
     const value = {
         ...state,
         getCurrentUser,
-        // getUsers,
+        getUsers,
         logout, 
         addTicket,
+        ticketComplete,
+        ticketIncomplete,
+        removeTicket,
+        removeUser,
+        getTickets,
+        updateTicket,
+        updateUser,
     }
 
     return (

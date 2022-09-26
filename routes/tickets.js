@@ -16,9 +16,9 @@ router.get("/test", (req, res) => {
 // @access     Private
 router.post("/new", requiresAuth, async (req, res) => {
     try {
-        const {isValid, errors} = validateTicketInput(req.body);
+        const { isValid, errors } = validateTicketInput(req.body);
 
-        if(!isValid) {
+        if (!isValid) {
             return res.status(400).json(errors);
         }
 
@@ -40,9 +40,26 @@ router.post("/new", requiresAuth, async (req, res) => {
         await newTicket.save();
 
         return res.json(newTicket);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
 
+        return res.status(500).send(err.message);
+    }
+});
+
+// @route      GET /api/tickets/alltickets
+// @desc       All tickets
+// @access     Private
+router.get("/alltickets", requiresAuth, async (req, res) => {
+    try {
+        const allTickets = await Ticket.find(
+            {
+                // user: req.user._id,
+            }).sort({ completedAt: -1 });
+
+        return res.json({ allTickets })
+    } catch (err) {
+        console.log(err);
         return res.status(500).send(err.message);
     }
 });
@@ -54,17 +71,17 @@ router.get("/current", requiresAuth, async (req, res) => {
     try {
         const completeTickets = await Ticket.find(
             {
-                user: req.user._id,
+                // user: req.user._id,
                 complete: true,
-            }).sort({completedAt: -1});
+            }).sort({ completedAt: -1 });
 
-            const incompleteTickets = await Ticket.find({
-                user: req.user._id,
-                complete: false,
-                }).sort({createdAt: -1});
+        const incompleteTickets = await Ticket.find({
+            // user: req.user._id,
+            complete: false,
+        }).sort({ createdAt: -1 });
 
-                return res.json({incomplete: incompleteTickets, complete: completeTickets})
-    } catch(err) {
+        return res.json({ incomplete: incompleteTickets, complete: completeTickets })
+    } catch (err) {
         console.log(err);
         return res.status(500).send(err.message);
     }
@@ -80,12 +97,12 @@ router.put("/:ticketId/complete", requiresAuth, async (req, res) => {
             _id: req.params.ticketId
         });
 
-        if(!ticket) {
-            return res.status(404).json({error: "Could not find ticket"});
+        if (!ticket) {
+            return res.status(404).json({ error: "Could not find ticket" });
         }
 
-        if(ticket.complete) {
-            return res.status(400).json({error: "Ticket is already complete"})
+        if (ticket.complete) {
+            return res.status(400).json({ error: "Ticket is already complete" })
         };
 
         const updatedTicket = await Ticket.findOneAndUpdate(
@@ -100,10 +117,10 @@ router.put("/:ticketId/complete", requiresAuth, async (req, res) => {
             {
                 new: true
             }
-            );
+        );
 
-            return res.json(updatedTicket);
-    } catch(err) {
+        return res.json(updatedTicket);
+    } catch (err) {
         console.log(err);
         return res.status(500).send(err.message);
     }
@@ -115,21 +132,21 @@ router.put("/:ticketId/complete", requiresAuth, async (req, res) => {
 router.put("/:ticketId/incomplete", requiresAuth, async (req, res) => {
     try {
         const ticket = await Ticket.findOne({
-            user: req.user._id,
+            // user: req.user._id,
             _id: req.params.ticketId,
         });
 
-        if(!ticket) {
-            return res.status(404).json({error: "Could not find ticket"});
+        if (!ticket) {
+            return res.status(404).json({ error: "Could not find ticket" });
         }
 
-        if(!ticket.complete) {
-            return res.status(400).json({error: "Ticket is already incomplete"});
+        if (!ticket.complete) {
+            return res.status(400).json({ error: "Ticket is already incomplete" });
         }
 
         const updatedTicket = await Ticket.findOneAndUpdate(
             {
-                user: req.user._id,
+                // user: req.user._id,
                 _id: req.params.ticketId,
             },
             {
@@ -142,7 +159,7 @@ router.put("/:ticketId/incomplete", requiresAuth, async (req, res) => {
         )
 
         return res.json(updatedTicket);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return res.status(500).send(err.message);
     }
@@ -154,27 +171,34 @@ router.put("/:ticketId/incomplete", requiresAuth, async (req, res) => {
 router.put("/:ticketId", requiresAuth, async (req, res) => {
     try {
         const ticket = await Ticket.findOne({
-            user: req.user._id,
+            // user: req.user._id,
             _id: req.params.ticketId,
         });
 
-        if(!ticket) {
-            return res.status(404).json({error: 'Could not find ticket'});
+        if (!ticket) {
+            return res.status(404).json({ error: 'Could not find ticket' });
         }
 
         const { isValid, errors } = validateTicketInput(req.body);
 
-        if(!isValid) {
+        if (!isValid) {
             return res.status(400).json(errors);
         }
 
         const updatedTicket = await Ticket.findOneAndUpdate(
             {
-                user: req.user._id,
+                // user: req.user._id,
                 _id: req.params.ticketId,
             },
             {
-                content: req.body.content
+                // content: req.body.content,
+                name: req.body.name,
+                steps: req.body.steps,
+                expected: req.body.expected,
+                actual: req.body.actual,
+                files: req.body.files,
+                severity: req.body.severity,
+                assign: req.body.assign,
             },
             {
                 new: true
@@ -182,7 +206,7 @@ router.put("/:ticketId", requiresAuth, async (req, res) => {
         );
 
         return res.json(updatedTicket);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return res.status(500).send(err.message);
     }
@@ -197,9 +221,9 @@ router.delete("/:ticketId", requiresAuth, async (req, res) => {
             user: req.user._id,
             _id: req.params.ticketId,
         });
-
-        if(!ticket) {
-            return res.status(404).json({error: "Could not find ticket"});
+        
+        if (!ticket) {
+            return res.status(404).json({ error: "Could not find ticket" });
         }
 
         await Ticket.findOneAndRemove({
@@ -208,7 +232,7 @@ router.delete("/:ticketId", requiresAuth, async (req, res) => {
         })
 
         return res.json({ success: true })
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return res.status(500).send(err.message);
     }

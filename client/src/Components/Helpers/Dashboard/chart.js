@@ -6,11 +6,11 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 function ApexChart () {
 
-  const { incompleteTickets, completeTickets } = useGlobalContext();
+  const { incompleteTickets, completeTickets, user } = useGlobalContext();
 
 		const state = {
             // series: [9, 6],
-            series: [completeTickets.length, incompleteTickets.length],
+            series: [completeTickets.filter(ticket => ticket.assign.includes(user._id)).length, incompleteTickets.filter(ticket => ticket.assign.includes(user._id)).length],
             options: {
                 colors: ['#388e3c', '#f44336'],
               chart: {
