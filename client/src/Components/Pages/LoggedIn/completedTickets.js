@@ -6,7 +6,7 @@ import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import SourceIcon from '@mui/icons-material/Source';
 import { Link } from "react-router-dom"
 import { Navigate } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 
 
 const useStyles = makeStyles((theme) => ({

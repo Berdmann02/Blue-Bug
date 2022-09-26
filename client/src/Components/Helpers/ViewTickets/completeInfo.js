@@ -15,7 +15,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
 import Delete from './completeDeleteDialog'
 import { Link } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext'
+import { useGlobalContext } from '../../Context/GlobalContext'
 
 
 function Info(props) {

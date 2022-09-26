@@ -12,7 +12,7 @@ import SourceIcon from '@mui/icons-material/Source';
 import ThemeSwitch from '../../Helpers/Settings/themeSwitch'
 import PasswordIcon from '@mui/icons-material/Password';
 import { Navigate } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import NameChange from '../../Helpers/Settings/nameChange'
 
 

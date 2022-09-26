@@ -14,7 +14,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
 import { Link } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext'
+import { useGlobalContext } from '../../Context/GlobalContext'
 import moment from 'moment';
 import Info from './userInfo'
 

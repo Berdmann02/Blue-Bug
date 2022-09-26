@@ -1,6 +1,6 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 
 
 

@@ -10,7 +10,7 @@ import { Paper, Table, TableBody, TableCell,
 } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
 import { styled } from '@mui/material/styles'
-import { useGlobalContext } from '../../../Context/GlobalContext'
+import { useGlobalContext } from '../../Context/GlobalContext'
 import moment from 'moment';
 import Info from './myinfo'
 

@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles'
 import Chart from '../../Helpers/Dashboard/chart';
 import Table from '../../Helpers/Dashboard/dashTable';
 import { Navigate } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 
 
 

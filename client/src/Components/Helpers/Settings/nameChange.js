@@ -5,7 +5,7 @@ import {
     CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import axios from 'axios'
 
 

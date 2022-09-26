@@ -10,7 +10,7 @@ import EditSeverity from '../../Helpers/EditTickets/editSeverity'
 // import UploadButton from '../../Helpers/CreateTickets/uploadButton'
 import EditSelect from '../../Helpers/EditTickets/editSelect'
 import { Navigate } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import axios from 'axios'
 import EditUploadButton from '../../Helpers/EditTickets/editUploadButton'
 

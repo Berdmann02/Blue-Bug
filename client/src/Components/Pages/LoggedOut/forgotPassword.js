@@ -5,7 +5,7 @@ import {
     Card, CardContent, CardActions, CircularProgress
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import { Navigate } from "react-router-dom"
 
 

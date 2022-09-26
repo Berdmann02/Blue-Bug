@@ -18,7 +18,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from "react-router-dom"
-import { useGlobalContext } from '/Users/benjaminerdmann/Documents/Coding/bug-tracker/bluebug copy 2/client/src/Context/GlobalContext';
+import { useGlobalContext } from '../Context/GlobalContext';
 
 const drawerWidth = 240;
 

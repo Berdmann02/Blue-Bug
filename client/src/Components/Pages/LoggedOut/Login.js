@@ -6,7 +6,7 @@ import {
     Card, CardContent, CardActions, Link, CircularProgress
 } from '@mui/material'
 import axios from 'axios'
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import { useNavigate, Navigate } from "react-router-dom"
 
 

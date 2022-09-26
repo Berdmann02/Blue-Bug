@@ -7,7 +7,7 @@ import {
 import { makeStyles } from '@mui/styles'
 // import { Link } from "react-router-dom"
 import axios from 'axios'
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import { Navigate } from "react-router-dom"
 
 

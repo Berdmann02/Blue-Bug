@@ -9,7 +9,7 @@ import SelectUser from '../../Helpers/CreateTickets/selectUser'
 import Severity from '../../Helpers/CreateTickets/severity'
 import UploadButton from '../../Helpers/CreateTickets/uploadButton'
 import { Navigate } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 import axios from 'axios'
 
 

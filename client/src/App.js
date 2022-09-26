@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './main.css'
-import { GlobalProvider, useGlobalContext } from './Context/GlobalContext';
+import { GlobalProvider, useGlobalContext } from './Components/Context/GlobalContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material';

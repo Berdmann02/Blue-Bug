@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from 'axios'
-import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useGlobalContext } from '../../Context/GlobalContext';
 
 
 export default function AlertDialog({ people }) {
