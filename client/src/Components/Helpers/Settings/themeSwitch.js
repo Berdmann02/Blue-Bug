@@ -67,7 +67,8 @@ export default function ThemeSwitch({ parentCallback, value }) {
       <FormGroup>
         <FormControlLabel
           control={<MaterialUISwitch sx={{ m: 1, mt: 1.4 }} 
-            checked={value === 'dark' ? true : false}
+            // checked={value === 'dark' ? true : false}
+            checked={value === 'light' ? false : true}
           onChange={parentCallback}
            />}/> 
         </FormGroup>

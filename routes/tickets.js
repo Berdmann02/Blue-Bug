@@ -93,7 +93,7 @@ router.get("/current", requiresAuth, async (req, res) => {
 router.put("/:ticketId/complete", requiresAuth, async (req, res) => {
     try {
         const ticket = await Ticket.findOne({
-            user: req.user._id,
+            // user: req.user._id,
             _id: req.params.ticketId
         });
 
@@ -107,7 +107,7 @@ router.put("/:ticketId/complete", requiresAuth, async (req, res) => {
 
         const updatedTicket = await Ticket.findOneAndUpdate(
             {
-                user: req.user._id,
+                // user: req.user._id,
                 _id: req.params.ticketId,
             },
             {
