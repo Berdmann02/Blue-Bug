@@ -108,11 +108,11 @@ function NameChange() {
                             />
 
 
-                            <Typography sx={{ ml: 31.5, mt: 1, fontSize: 14.25 }}>
+                            {/* <Typography sx={{ ml: 31.5, mt: 1, fontSize: 14.25 }}>
                                 <Link href="/change" underline="none" id='transfer'>
                                     {'Change password?'}
                                 </Link>
-                            </Typography>
+                            </Typography> */}
 
                             {!editing ? 
                                 <Box sx={{ ml: 41 }}>

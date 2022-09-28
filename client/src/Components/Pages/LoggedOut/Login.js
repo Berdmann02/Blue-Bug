@@ -163,13 +163,13 @@ function Login({ value, register }) {
                     </form>
 
 
-                <Box>
+                {/* <Box>
                     <Typography sx={{ ml: 63.5, mt: 1, fontSize: 14.25 }}>
                         <Link href="/forgot" underline="none" id='transfer'>
                             {'Forgot password?'}
                         </Link>
                     </Typography>
-                </Box>
+                </Box> */}
 
                 {/* <Grid container row sx={{ mt: 1 }}>
                         <Box>
