@@ -4,6 +4,7 @@ const User = require("../models/User")
 const bcrypt = require("bcryptjs");
 const validateRegisterInput = require("../validation/registerValidation");
 const validateUserInput = require("../validation/updateUserValidation");
+const validateNewUserInput = require("../validation/newUsersValidation");
 const jwt = require('jsonwebtoken');
 const requiresAuth = require('../middleware/permissions');
 
@@ -79,11 +80,11 @@ router.post("/register", async (req, res) => {
 })
 
 // @route      POST /api/auth/newuser
-// @desc       Create a new user
+// @desc       Create a new user within the app
 // @access     Private
 router.post("/newuser", requiresAuth, async (req, res) => {
     try {
-        const {errors, isValid} = validateRegisterInput(req.body);
+        const {errors, isValid} = validateNewUserInput(req.body);
 
         if(!isValid) {
             return res.status(400).json(errors);

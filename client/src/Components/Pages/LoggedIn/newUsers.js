@@ -42,14 +42,14 @@ function NewUsers() {
 
         let data = {};
 
-            data = {
-                firstName,
-                lastName,
-                role,
-                email,
-                password,
-                confirmPassword
-            };
+        data = {
+            firstName,
+            lastName,
+            role,
+            email,
+            password,
+            confirmPassword
+        };
 
         axios.post("/api/auth/newuser", data).then(() => {
             setFirstName('');
@@ -59,7 +59,7 @@ function NewUsers() {
             setPassword('');
             setConfirmPassword('');
 
-
+            setSubmit(true);
             // getCurrentUser();
         }).catch(err => {
             setLoading(false);
@@ -69,31 +69,31 @@ function NewUsers() {
             }
         })
 
-        setSubmit(true);
+        // setSubmit(true);
     };
 
     const handleChange = (event) => {
         setRole(event.target.value);
     };
 
-    if(!user && fetchingUser === false){
+    if (!user && fetchingUser === false) {
         return <Navigate to="/login" />
-      }
+    }
 
-      if(submit){
+    if (submit) {
         return <Navigate to='/current' />
-      }
+    }
 
-  return fetchingUser ? (
-    <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-    >
-        <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
-    </Grid>
-) : (
+    return fetchingUser ? (
+        <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+        >
+            <CircularProgress color="primary" sx={{ mt: 30 }} thickness='5' />
+        </Grid>
+    ) : (
         <Box sx={{ pt: 11, pl: 25 }}
             className={classes.root}>
 
@@ -110,65 +110,89 @@ function NewUsers() {
                 <Box sx={{ mt: 2 }} />
 
                 <form onSubmit={onSubmit}>
-                <Grid container justifyContent="center" direction="column" alignItems="center">
+                    <Grid container justifyContent="center" direction="column" alignItems="center">
 
-                <TextField value={firstName} onChange={e => setFirstName(e.target.value)} 
-                required id="new-user-first-name" label="First Name" size='small' 
-                margin="normal" color='primary' style={{ width: 350 }} />
+                        <TextField value={firstName} onChange={e => setFirstName(e.target.value)}
+                            id="new-user-first-name" label="First Name" size='small'
+                            margin="normal" color='primary' style={{ width: 350 }} />
 
-                <TextField value={lastName} onChange={e => setLastName(e.target.value)} 
-                required id="new-user-last-name" label="Last Name" size='small' 
-                margin="normal" color='primary' style={{ width: 350 }} />
+                        {errors.firstName && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.firstName}</Typography>
+                        )}
 
-                <Box sx={{ mt: 3 }} />
+                        <TextField value={lastName} onChange={e => setLastName(e.target.value)}
+                            id="new-user-last-name" label="Last Name" size='small'
+                            margin="normal" color='primary' style={{ width: 350 }} />
 
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                >
+                        {errors.lastName && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.lastName}</Typography>
+                        )}
 
-                    <InputLabel id="new-user-select-label">Role:</InputLabel>
+                        <Box sx={{ mt: 3 }} />
 
-                    <Box sx={{ ml: 3 }} />
+                        <Grid
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
 
-                    <Select
-                        size='small'
-                        labelId="new-user-select-label"
-                        id="new-user-select"
-                        value={role}
-                        onChange={handleChange}
-                    >
-                        {user.role.includes('Admin') ? <MenuItem value={'Admin'}>Admin</MenuItem> : null}
-                        <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
-                        <MenuItem value={'Editor'}>Editor</MenuItem>
-                        <MenuItem value={'Updater'}>Updater</MenuItem>
-                    </Select>
+                            <InputLabel id="new-user-select-label">Role:</InputLabel>
 
-                </Grid>
+                            <Box sx={{ ml: 3 }} />
 
-                <Box sx={{ mt: 3 }} />
+                            <Select
+                                size='small'
+                                labelId="new-user-select-label"
+                                id="new-user-select"
+                                value={role}
+                                onChange={handleChange}
+                            >
+                                {user.role.includes('Admin') ? <MenuItem value={'Admin'}>Admin</MenuItem> : null}
+                                <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
+                                <MenuItem value={'Editor'}>Editor</MenuItem>
+                                <MenuItem value={'Updater'}>Updater</MenuItem>
+                            </Select>
 
-                <TextField value={email} onChange={e => setEmail(e.target.value)} 
-                required id="new-user-email" label="Email" size='small' 
-                margin="normal" color='primary' style={{ width: 350 }} />
+                        </Grid>
 
-                <TextField value={password} onChange={e => setPassword(e.target.value)} 
-                id="new-user-password" label="Password" type="password" size='small' 
-                margin="normal" color='primary' style={{ width: 350 }} />
+                        {errors.role && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500, mt: 1 }} color='#f44336' align='center'>{errors.role}</Typography>
+                        )}
 
-<TextField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} 
-                id="new-user-confirm-password" label="Confirm Password" type="password" size='small' 
-                margin="normal" color='primary' style={{ width: 350 }} />
+                        <Box sx={{ mt: 3 }} />
+
+                        <TextField value={email} onChange={e => setEmail(e.target.value)}
+                            id="new-user-email" label="Email" size='small'
+                            margin="normal" color='primary' style={{ width: 350 }} />
+
+                        {errors.email && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.email}</Typography>
+                        )}
+
+                        <TextField value={password} onChange={e => setPassword(e.target.value)}
+                            id="new-user-password" label="Password" type="password" size='small'
+                            margin="normal" color='primary' style={{ width: 350 }} />
+
+                        {errors.password && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.password}</Typography>
+                        )}
+
+                        <TextField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
+                            id="new-user-confirm-password" label="Confirm Password" type="password" size='small'
+                            margin="normal" color='primary' style={{ width: 350 }} />
+
+                        {errors.confirmPassword && (
+                            <Typography sx={{ fontSize: 12, fontWeight: 500 }} color='#f44336' align='center'>{errors.confirmPassword}</Typography>
+                        )}
 
 
-                <Button disabled={loading} type='submit' variant="contained" size='large' 
-                style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 3 }}>
-                    Create Account
-                    </Button>
+                        <Button disabled={loading} type='submit' variant="contained" size='large'
+                            style={{ backgroundColor: '#1C75BC' }} sx={{ mt: 3 }}>
+                            Create Account
+                        </Button>
 
-                </Grid>
+                    </Grid>
                 </form>
 
                 <Box sx={{ mt: 3 }} />

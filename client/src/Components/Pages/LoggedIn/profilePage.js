@@ -26,13 +26,18 @@ function ProfilePage({ value }) {
 
     const classes = useStyles();
 
-    const hovertip = <IconButton size='small'>
+    const hovertip = 
+    <IconButton size='small'>
         <EditIcon sx={{ width: 20, height: 20 }} />
     </IconButton>
 
     const upload = <UploadIcon size='small' />
 
-    const { user, fetchingUser, fetchingUsers } = useGlobalContext();
+    const { user, fetchingUser, fetchingUsers, users } = useGlobalContext();
+
+    const USERS = users.users || []
+
+    // const UserRole = USERS.filter(people => people._id === id).map((person) => person.role).toString('')
 
     if (!user && fetchingUser === false) {
         return <Navigate to="/login" />

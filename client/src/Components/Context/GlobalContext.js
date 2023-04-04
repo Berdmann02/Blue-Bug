@@ -278,4 +278,3 @@ export const GlobalProvider = (props) => {
 export function useGlobalContext() {
     return useContext(GlobalContext);
 }
-

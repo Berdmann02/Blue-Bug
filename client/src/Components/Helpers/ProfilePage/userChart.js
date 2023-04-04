@@ -1,12 +1,13 @@
 import * as React from 'react';
 // import PropTypes from 'prop-types';
-import { Paper, Table, TableBody, TableCell, 
-    TableContainer, TableHead, TablePagination,
-    TableRow, Box, IconButton, Collapse, Grid,
-    Card, Divider, CardContent, Typography, 
-    tableCellClasses, Dialog, DialogTitle, 
-    DialogContent, Button, DialogActions,
-    Checkbox, Tooltip, Modal
+import {
+  Paper, Table, TableBody, TableCell,
+  TableContainer, TableHead, TablePagination,
+  TableRow, Box, IconButton, Collapse, Grid,
+  Card, Divider, CardContent, Typography,
+  tableCellClasses, Dialog, DialogTitle,
+  DialogContent, Button, DialogActions,
+  Checkbox, Tooltip, Modal
 } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,9 +20,9 @@ import moment from 'moment';
 import Info from './userInfo'
 
 const StyledTableCell = styled(TableCell)({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#1C75BC'
-    }
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: '#1C75BC'
+  }
 });
 
 export default function UserChart() {
@@ -29,28 +30,29 @@ export default function UserChart() {
   const { users, user, fetchingUsers } = useGlobalContext();
 
   const USERS = users.users || []
-  
+
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState("");
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  // console.log( USERS.filter(person => person._id === id).map((people) => people.role))
+  // console.log( USERS.filter(person => person._id === id).map((people) => people.role).toString(''))
 
   const UserRole = USERS.filter(people => people._id === id).map((person) => person.role).toString('')
 
-  const [role, setRole] = React.useState(UserRole);
+  // const [role, setRole] = React.useState(UserRole);
+  // console.log(UserRole);
 
-    const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false);
 
-    const handleClickOpen = (_id) => {
+  const handleClickOpen = (_id) => {
     // setOpen(true);
     setId(id);
     setOpen(true);
 
 
-    };
+  };
 
 
   const handleChangePage = (event, newPage) => {
@@ -62,69 +64,73 @@ export default function UserChart() {
     setPage(0);
   };
 
-// const { incompleteTickets } = useGlobalContext();
+  // const { incompleteTickets } = useGlobalContext();
 
 
-// const USERS = users.users || [];
+  // const USERS = users.users || [];
 
-if(!fetchingUsers) {
-  return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-    <TableContainer sx={{ maxHeight: 440 }}>
-      <Table stickyHeader aria-label="sticky table" >
-        <TableHead>
-          <TableRow>
-          <StyledTableCell width={100} />
-          <StyledTableCell width={170} align="center" style={{ fontWeight: '500', fontStyle: 'italic' }}>Account Name</StyledTableCell>
-            <StyledTableCell width={200} align="center" style={{ fontWeight: '500', fontStyle: 'italic' }}>Role</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        <Info open={open} setOpen={setOpen} UserId={id} UserRole={UserRole} role={role} setRole={setRole}/>
-        {USERS.filter(people => people._id != user._id)
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        .map((person) => (
-            <TableRow
-              hover
-              key={person._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell>
-              <Tooltip title='Ticket Info'>
-                <IconButton size='small' variant="outlined" onClick={() => {
-                  setId(person._id);
-                  setOpen(true);
-                }}>
-                  <InfoIcon />
-                </IconButton>
-              </Tooltip>
-                
-              </TableCell>
-              <TableCell component="th" scope="row" align='center'>
-                {person.firstName + ' ' + person.lastName}
-              </TableCell>
-              <TableCell component="th" scope="row" align='center'>
-                {person.role}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <TablePagination
-      rowsPerPageOptions={[5, 10, 25]}
-      component="div"
-      count={USERS.filter(people => people._id != user._id).length}
-      rowsPerPage={rowsPerPage}
-      page={page}
-      onPageChange={handleChangePage}
-      onRowsPerPageChange={handleChangeRowsPerPage}
-    />
-  </Paper>
-   );
+  if (!fetchingUsers) {
+    return (
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table" >
+            <TableHead>
+              <TableRow>
+                <StyledTableCell width={100} />
+                <StyledTableCell width={170} align="center" style={{ fontWeight: '500', fontStyle: 'italic' }}>Account Name</StyledTableCell>
+                <StyledTableCell width={200} align="center" style={{ fontWeight: '500', fontStyle: 'italic' }}>Role</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <Info open={open} setOpen={setOpen} UserId={id} UserRole={UserRole} />
+              {USERS.filter(people => people._id != user._id)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((person) => (
+                  <TableRow
+                    hover
+                    key={person._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+
+                    <TableCell>
+                      {user.role.includes('Updater') ? null :
+                        <Tooltip title='Ticket Info'>
+                          <IconButton size='small' variant="outlined" onClick={() => {
+                            setId(person._id);
+                            setOpen(true);
+                          }}>
+                            <InfoIcon />
+                          </IconButton>
+                        </Tooltip>
+                      }
+                    </TableCell>
+
+                    <TableCell component="th" scope="row" align='center'>
+                      {person.firstName + ' ' + person.lastName}
+                    </TableCell>
+
+                    <TableCell component="th" scope="row" align='center'>
+                      {person.role}
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={USERS.filter(people => people._id != user._id).length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    );
   }
 }
-    
+
 
 
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { Paper, Table, TableBody, TableCell, 
     TableContainer, TableHead, TablePagination,
@@ -15,7 +15,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { styled } from '@mui/material/styles'
 import Delete from '../deleteDialog'
 import { Link } from "react-router-dom"
-import { useGlobalContext } from '../../../Context/GlobalContext'
+import { useGlobalContext, getUsersFunc } from '../../../Context/GlobalContext'
 import moment from 'moment';
 import Info from './info'
 
@@ -30,6 +30,10 @@ const StyledTableCell = styled(TableCell)({
 // }
 
 export default function ViewChart() {
+
+//   useEffect(() => {
+//     console.log(getUsersFunc());
+// }, []);
   
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState("");
@@ -47,10 +51,6 @@ export default function ViewChart() {
 
     };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -60,216 +60,9 @@ export default function ViewChart() {
     setPage(0);
   };
 
-//   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-//   '& .MuiDialogContent-root': {
-//     padding: theme.spacing(2),
-//   },
-//   '& .MuiDialogActions-root': {
-//     padding: theme.spacing(1),
-//   },
-// }));
-
 const { incompleteTickets, users } = useGlobalContext();
 
 const USERS = users.users || []
-
-// const BootstrapDialogTitle = (props) => {
-//   const { children, onClose, ...other } = props;
-
-//   // const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
-//   return (
-//     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-//       {children}
-//       {onClose ? (
-//         <IconButton
-//           aria-label="close"
-//           onClick={onClose}
-//           sx={{
-//             position: 'absolute',
-//             right: 8,
-//             top: 8,
-//             color: (theme) => theme.palette.grey[500],
-//           }}
-//         >
-//           <CloseIcon />
-//         </IconButton>
-//       ) : null}
-//     </DialogTitle>
-//   );
-// };
-
-// // BootstrapDialogTitle.propTypes = {
-// //   children: PropTypes.node,
-// //   onClose: PropTypes.func.isRequired,
-// // };
-
-// const info = <div>
-//   <Tooltip title='Ticket Info'>
-// <IconButton size='small' variant="outlined" onClick={handleClickOpen}>
-//   <InfoIcon />
-// </IconButton>
-// </Tooltip>
-// <BootstrapDialog
-//  onClose={handleClose}
-//  aria-labelledby="customized-dialog-title"
-//  open={open}
-// >
-//  <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-//    Ticket Information
-//  </BootstrapDialogTitle>
-//  {/* {incompleteTickets.filter(tickets => tickets._id  */}
-//  <DialogContent dividers>
-//               <Box component="div" sx={{ display: 'inline' }}>
-//                   <Typography style={{ fontWeight: '700', fontStyle: 'italic' }} noWrap>
-//                       Steps To Reproduce :
-//                   </Typography>
-//                   <Box sx={{mt: 1}} />
-//                   <Grid container direction="row" justifyContent="space-around" alignItems="center">
-//                   <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-//                       <CardContent>
-//                           <Typography variant="body1" >
-//                               {/* {tickets.steps} */}
-//                               </Typography>
-//                       </CardContent>
-//                   </Card>
-//                   </Grid>
-//                   </Box>
-
-
-//               <Box sx={{ mt: 3}} />
-
-             
-
-//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-//                   Expected Result :
-//               </Typography>
-//               <Box sx={{mt: 1}} />
-//               <Grid container direction="row" justifyContent="space-around" alignItems="center">
-//               <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-//                   <CardContent>
-//                       <Typography>
-//                           {/* {tickets.expected} */}
-//                       </Typography>
-//                   </CardContent>
-//               </Card>
-//               </Grid>
-
-//               <Box sx={{ mt: 3}} />
-
-
-
-//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-//                   Actual Result :
-//               </Typography>
-//               <Box sx={{mt: 1}} />
-//               <Grid container direction="row" justifyContent="space-around" alignItems="center">
-//               <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-//                   <CardContent>
-//                       <Typography>
-//                           {/* {tickets.actual} */}
-//                       </Typography>
-//                   </CardContent>
-//               </Card>
-//               </Grid>
-
-//               <Box sx={{ mt: 3}} />
-
-
-
-
-//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-//                   Pictures/Videos :
-//               </Typography>
-//               <Box sx={{mt: 1}} />
-//               <Grid container direction="row" justifyContent="space-around" alignItems="center">
-//               <Card sx={{ width: 400, backgroundColor: '#1C75BC' }}>
-//                   <CardContent>
-//                   {/* {tickets.files} */}
-//                       <Typography>
-//                         No files loaded...
-//                       </Typography>
-//                   </CardContent>
-//               </Card>
-//               </Grid>
-
-//               <Box sx={{ mt: 2}} />
-
-//               <Grid container
-//                     direction="row"
-//                     justifyContent="flex-start"
-//                     alignItems="center">
-//               <Typography style={{ fontWeight: '700', fontStyle: 'italic' }}>
-//                 Complete Ticket :
-//               </Typography>
-
-//               <Checkbox {...{inputProps: { 'aria-label': 'Checkbox demo' }}} />
-
-//               </Grid>
-
-//               <Box sx={{ mt: 2}} />
-
-//  </DialogContent>
-//  <DialogActions>
-//  <Grid
-//                     container
-//                     direction="row"
-//                     justifyContent="flex-start"
-//                     alignItems="center"
-//                 >
-//                     <Delete />
-    
-//                 </Grid>
-//  <Button component={Link} to="/edit:ticketid" autoFocus onClick={handleClose}>
-//      Edit
-//    </Button>
-//    <Button autoFocus onClick={handleClose}>
-//      Save
-//    </Button>
-//  </DialogActions>
-// </BootstrapDialog>
-// </div>
-
-//   const rows = [
-//     createData( 'Create View Ticket Page', 'Ben, Zacky' , 'Critical', '42m'),
-//     createData( 'Create Login Page', 'Fede, Jonathan, Zacky', 'Medium', '1hr'),
-//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-//     createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-//     createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
-//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-//     createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-//     createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
-//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-//     createData( 'Link Pages', 'Ben', 'High', '42m'),
-//     createData( 'Work on Settings', 'Fede', 'Medium', '23hr'),
-//     createData( 'Create Profile Page', 'Zacky', 'Low', '1m'),
-//     createData( 'Create View Ticket Page', 'Ben', 'Critical', '42m'),
-//     createData( 'Create Login Page', 'Fede', 'Medium', '1hr'),
-//     createData( 'Debug Created Pages', 'Zacky', 'Low', '2d'),
-// ];
-
-//   const columns = [
-//     { id: 'info', label: ''
-//     , minWidth: 100},
-//   { id: 'name', label: 'Ticket Name', 
-//   minWidth: 170
-// },
-//   { id: 'user', label: 'User(s)', 
-//   minWidth: 100, align: 'right'
-// },
-//   {
-//     id: 'severity',
-//     label: 'Severity',
-//     minWidth: 170,
-//     align: 'right'
-//   },
-//   {
-//     id: 'time',
-//     label: 'Time Since Posting',
-//     minWidth: 170,
-//     align: 'right'
-//   },
-// ]
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

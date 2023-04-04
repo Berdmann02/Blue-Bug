@@ -20,27 +20,25 @@ import { useGlobalContext } from '../../Context/GlobalContext'
 import axios from 'axios'
 
 
-function UserInfo(props, {role, setRole}) {
+function UserInfo(props) {
 
   const { users, user, updateUser } = useGlobalContext();
 
   const USERS = users.users || []
 
-  // const [role, setRole] = React.useState(props.UserRole);
-  // const [role, setRole] = React.useState(10);
+  const [role, setRole] = React.useState(props.UserRole);
 
-  // console.log(role);
 
   const handleClose = () => {
     props.setOpen(false);
     // window.location.reload(false);
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
+  // const handleChange = (e) => {
+  //   e.preventDefault();
 
-    setRole(e.target.value)
-  };
+  //   setRole(e.target.value)
+  // };
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -100,7 +98,7 @@ function UserInfo(props, {role, setRole}) {
           open={props.open}
         >
           <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Account Information
+            Update User Role
           </BootstrapDialogTitle>
 
           <DialogContent dividers sx={{ minWidth: 500 }}>
@@ -111,17 +109,19 @@ function UserInfo(props, {role, setRole}) {
               <Box sx={{ mt: 2 }} />
               <Grid container direction="row" justifyContent="space-around" alignItems="center">
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                  <InputLabel id="demo-simple-select-label">Change Role</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // defaultValue={people.role}
-                    value={role}
-                    label="Role"
-                    onChange={handleChange}
+                    defaultValue={''}
+                    // value={'Admin'}
+                    // value={people.role}
+                    label="Change Role"
+                    // onChange={handleChange}
+                    onChange={e => setRole(e.target.value)}
                   >
-                    <MenuItem value={'Admin'}>Admin</MenuItem>
-                    <MenuItem value={'Project Manager'}>Project Manager</MenuItem>
+                    {user.role.includes('Admin') ? <MenuItem value={'Admin'}>Admin</MenuItem> : null}
+                    {user.role.includes('Admin') || user.role.includes('Project Manager') ? <MenuItem value={'Project Manager'}>Project Manager</MenuItem> : null}
                     <MenuItem value={'Editor'}>Editor</MenuItem>
                     <MenuItem value={'Updater'}>Updater</MenuItem>
                   </Select>
