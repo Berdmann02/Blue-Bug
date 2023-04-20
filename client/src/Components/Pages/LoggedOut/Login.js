@@ -25,10 +25,18 @@ function Login({ value, register }) {
     const [loading, setLoading] = React.useState(false);
     const [errors, setErrors] = React.useState({});
 
+    const Guest = (e) => {
+        setEmail('guest@gmail.com');
+        setPassword('123456');
+    }
+
     React.useEffect(() => {
         if(user && navigate) {
             navigate('/')
         }
+        if (sessionStorage.getItem('hasLoadedBefore') !== 'false') {
+            sessionStorage.setItem('hasLoadedBefore', 'false');
+          }
     }, [user, navigate])
 
     const onSubmit = (e) => {
@@ -161,6 +169,15 @@ function Login({ value, register }) {
                 </Grid>
                 </Box>
                     </form>
+
+
+                <Box>
+                    <Typography sx={{ ml: 63.5, mt: 1, fontSize: 14.25 }}>
+                        <Link underline="none" id='transfer' onClick={Guest}>
+                            {'Sign In As Guest?'}
+                        </Link>
+                    </Typography>
+                </Box>
 
 
                 {/* <Box>

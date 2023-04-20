@@ -24,10 +24,6 @@ function Change() {
 
     const { user, fetchingUser } = useGlobalContext();
 
-// null - true return
-// null - false, redirect login
-// !null - false, re
-
   if(!user && fetchingUser === false){
     return <Navigate to="/login" />
   }

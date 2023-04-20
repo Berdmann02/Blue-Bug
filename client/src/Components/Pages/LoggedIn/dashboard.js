@@ -1,4 +1,5 @@
-import * as React from 'react'
+// import * as React from 'react'
+import React, { useState, useEffect } from 'react';
 import { Box, Card, CardActions, CardContent, Button, Typography, Grid, CircularProgress } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Chart from '../../Helpers/Dashboard/chart';
@@ -16,42 +17,26 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard() {
 
+  // function myCode() {
+  //   alert("Hello! Welcome to my first website ever created. This website is a ticketing system that can perform any of the CRUD functions. Please have a look around and I hope you enjoy it!");
+  // }
+
+  // useEffect(() => {
+  //   myCode();
+  // }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('hasLoadedBefore') !== 'true') {
+      sessionStorage.setItem('hasLoadedBefore', 'true');
+      window.location.reload();
+    }
+  }, []);
+
+  // window.location.reload(false);
+
   const classes = useStyles();
 
   const { user, fetchingUser, incompleteTickets } = useGlobalContext();
-  // const [zero, setZero] = React.useState(false);
-  // const [one, setOne] = React.useState(false);
-  // const [more, setMore] = React.useState(false);
-
-  // function checkTickets () {
-  //   if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 0) {
-  //     return (
-  //       <Typography variant='h6' sx={{ mt: 3 }} noWrap>
-  //               You do not have any tickets assigned to you!
-  //               </Typography> 
-  //     )
-  //   } 
-
-  //   if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 1) {
-  //     return (
-  //       <Typography variant='h6' sx={{ mt: 3 }} noWrap>
-  //               There is 1 ticket waiting for you!
-  //               </Typography> 
-  //     )
-  //   }
-  // }
-
-    //  if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 0) {
-    //   setZero(true);
-    // } 
-
-    // if(incompleteTickets.filter(ticket => ticket.assign.includes(user.firstName + ' ' + user.lastName.substring(0, 1) + '.')).length === 1) {
-    //   setOne(true);
-    // } 
-
-    // if(zero && one === false) {
-    //   setMore(true);
-    // }
 
 
   if (!user && fetchingUser === false) {
@@ -69,6 +54,8 @@ function Dashboard() {
     </Grid>
   ) : (
     <Box sx={{ pt: 10, pl: 32 }} className={classes.root}>
+
+
 
       <Box component="span" sx={{ display: 'block' }}>
 
